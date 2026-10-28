@@ -1,0 +1,58 @@
+@use "../variables" as v;
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(247, 248, 252, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+
+    .header-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 32px;
+        max-width: 1180px;
+        margin: 0 auto;
+    }
+
+    .logo {
+        font-family: "Space Grotesk", sans-serif;
+        font-weight: 700;
+        font-size: 1.3rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+        }
+    }
+
+    nav {
+        display: flex;
+        align-items: center;
+        gap: 36px;
+
+        a.nav-link {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: v.$text-muted;
+            transition: color 0.2s ease;
+
+            &:hover {
+                color: v.$indigo;
+            }
+        }
+    }
+}
+
+@media (max-width: 880px) {
+    header nav {
+        display: none;
+    }
+}

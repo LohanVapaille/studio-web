@@ -1,0 +1,99 @@
+@use "../variables" as v;
+
+.plans-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    align-items: center;
+
+    @media (max-width: 880px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.plan-card {
+    position: relative;
+    padding: 34px 28px;
+    transition:
+        transform 0.5s ease,
+        box-shadow 0.5s ease;
+
+    &:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 16px 40px rgba(67, 56, 202, 0.14);
+    }
+
+    &.is-featured {
+        padding: 44px 28px;
+        border: 2px solid v.$indigo-light;
+        box-shadow: 0 16px 40px rgba(67, 56, 202, 0.18);
+    }
+
+    h3 {
+        font-size: 1.15rem;
+        font-weight: 600;
+        margin-bottom: 14px;
+    }
+}
+
+.plan-badge {
+    position: absolute;
+    top: -13px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, v.$indigo, v.$cyan);
+    color: #fff;
+    padding: 5px 14px;
+    border-radius: 999px;
+    font-size: 0.76rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.plan-price {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 24px;
+
+    .plan-amount {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: v.$indigo;
+    }
+    .plan-period {
+        font-size: 0.88rem;
+        color: v.$text-muted;
+    }
+}
+
+.plan-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 12px 0;
+        border-top: 1px solid rgba(67, 56, 202, 0.1);
+        font-size: 0.9rem;
+
+        span {
+            color: v.$text-muted;
+        }
+        strong {
+            font-weight: 600;
+            text-align: right;
+            white-space: nowrap;
+        }
+    }
+}
+
+.plans-note {
+    text-align: center;
+    margin-top: 36px;
+    font-size: 0.88rem;
+    color: v.$text-muted;
+}

@@ -1,0 +1,22 @@
+// app.scss
+@use "variables";
+@use "modules/header";
+@use "modules/base";
+@use "modules/footer";
+@use "tailwindcss";
+
+@use "components/components";
+@use "components/contact";
+@use "components/blobs";
+@use "components/hero";
+@use "components/projets";
+@use "components/reviews";
+@use "components/sections";
+@use "components/services";
+@use "components/maintenance";
+@use "components/about";
+
+body {
+    margin: 0;
+    overflow-x: hidden;
+}

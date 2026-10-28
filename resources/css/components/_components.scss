@@ -1,0 +1,67 @@
+@use "../variables" as v;
+
+.glass-card {
+    background: v.$glass;
+    border: 1px solid v.$glass-border;
+
+    border-radius: v.$radius;
+    box-shadow: v.$shadow;
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: v.$glass;
+    border: 1px solid v.$glass-border;
+
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: v.$indigo;
+    margin-bottom: 28px;
+    box-shadow: v.$shadow;
+
+    &-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: v.$cyan;
+    }
+}
+
+.btn-rdv {
+    background: linear-gradient(135deg, v.$indigo, v.$indigo-light);
+    color: #fff;
+    padding: 11px 22px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    box-shadow: 0 6px 20px rgba(67, 56, 202, 0.25);
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    white-space: nowrap;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 26px rgba(67, 56, 202, 0.32);
+    }
+}
+
+.btn-secondary {
+    background: v.$glass;
+    border: 1px solid v.$glass-border;
+
+    padding: 11px 24px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    box-shadow: v.$shadow;
+    transition: transform 0.2s ease;
+
+    &:hover {
+        transform: translateY(-2px);
+    }
+}

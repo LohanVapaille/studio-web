@@ -1,0 +1,8 @@
+@use "../variables" as v;
+
+footer {
+    padding: 50px 32px 36px;
+    text-align: center;
+    color: v.$text-muted;
+    font-size: 0.85rem;
+}
