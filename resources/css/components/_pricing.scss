@@ -1,0 +1,100 @@
+@use "../variables" as v;
+
+.pricing-card {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 40px;
+    align-items: center;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 44px;
+
+    @media (max-width: 880px) {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        padding: 32px 24px;
+    }
+
+    h3 {
+        font-size: 1.35rem;
+        font-weight: 700;
+        margin-bottom: 12px;
+    }
+
+    .pricing-content > p {
+        color: v.$text-muted;
+        margin-bottom: 22px;
+    }
+}
+
+.pricing-points {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 20px;
+
+    @media (max-width: 540px) {
+        grid-template-columns: 1fr;
+    }
+
+    li {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        font-size: 0.92rem;
+        font-weight: 500;
+
+        &::before {
+            content: "✓";
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+            margin-top: 2px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, v.$indigo, v.$cyan);
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+    }
+}
+
+.pricing-aside {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 32px 24px;
+    border-radius: calc(#{v.$radius} - 4px);
+    background: linear-gradient(135deg, rgba(67, 56, 202, 0.08), rgba(56, 189, 248, 0.1));
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    text-align: center;
+
+    .pricing-label {
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: v.$text-muted;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .pricing-amount {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 2.2rem;
+        font-weight: 700;
+        line-height: 1.2;
+        color: v.$indigo;
+    }
+
+    .pricing-free {
+        font-size: 0.88rem;
+        color: v.$text-muted;
+        margin-bottom: 18px;
+    }
+
+    .btn-rdv {
+        white-space: normal;
+    }
+}

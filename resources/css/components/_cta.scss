@@ -1,0 +1,76 @@
+@use "../variables" as v;
+
+.cta-band {
+    padding-top: 40px;
+}
+
+.cta-card {
+    position: relative;
+    overflow: hidden;
+    padding: 64px 40px;
+    border-radius: 28px;
+    text-align: center;
+    color: #fff;
+    background: linear-gradient(135deg, v.$indigo, v.$indigo-light 55%, v.$cyan);
+    box-shadow: 0 24px 60px rgba(67, 56, 202, 0.3);
+
+    // cercles décoratifs
+    &::before,
+    &::after {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.12);
+        pointer-events: none;
+    }
+
+    &::before {
+        width: 320px;
+        height: 320px;
+        top: -140px;
+        right: -80px;
+    }
+
+    &::after {
+        width: 220px;
+        height: 220px;
+        bottom: -120px;
+        left: -60px;
+    }
+
+    h2 {
+        position: relative;
+        font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.2rem);
+        font-weight: 700;
+        margin-bottom: 12px;
+        text-wrap: balance;
+    }
+
+    p {
+        position: relative;
+        max-width: 520px;
+        margin: 0 auto 32px;
+        color: rgba(255, 255, 255, 0.85);
+    }
+
+    @media (max-width: 540px) {
+        padding: 48px 24px;
+    }
+}
+
+.btn-cta {
+    position: relative;
+    display: inline-block;
+    background: #fff;
+    color: v.$indigo;
+    padding: 13px 28px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    box-shadow: 0 10px 26px rgba(27, 27, 47, 0.18);
+    transition: transform 0.2s ease;
+
+    &:hover {
+        transform: translateY(-2px);
+    }
+}

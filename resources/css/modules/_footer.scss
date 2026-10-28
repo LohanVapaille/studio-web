@@ -1,8 +1,79 @@
 @use "../variables" as v;
 
 footer {
-    padding: 50px 32px 36px;
-    text-align: center;
+    position: relative;
+    z-index: 1;
+    margin-top: 40px;
+    padding: 64px 0 32px;
+    border-top: 1px solid rgba(67, 56, 202, 0.08);
+    background: linear-gradient(180deg, transparent, v.$bg-alt);
     color: v.$text-muted;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
+
+    .footer-inner {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+        gap: 40px;
+
+        @media (max-width: 880px) {
+            grid-template-columns: 1fr;
+            gap: 32px;
+        }
+    }
+
+    .logo {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: "Space Grotesk", sans-serif;
+        font-weight: 700;
+        font-size: 1.3rem;
+        color: v.$text;
+        margin-bottom: 14px;
+
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+        }
+    }
+
+    .footer-brand p {
+        max-width: 340px;
+    }
+
+    .footer-col {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+
+        h4 {
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: v.$text;
+            margin-bottom: 4px;
+        }
+
+        a:not(.btn-secondary) {
+            transition: color 0.2s ease;
+
+            &:hover {
+                color: v.$indigo;
+            }
+        }
+
+        .btn-secondary {
+            color: v.$text;
+        }
+    }
+
+    .footer-bottom {
+        margin-top: 48px;
+        padding-top: 24px;
+        border-top: 1px solid rgba(67, 56, 202, 0.08);
+        font-size: 0.82rem;
+        text-align: center;
+    }
 }

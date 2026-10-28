@@ -8,23 +8,41 @@ header {
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+    transition:
+        box-shadow 0.3s ease,
+        background 0.3s ease;
+
+    &.is-scrolled {
+        background: rgba(247, 248, 252, 0.88);
+        box-shadow: 0 6px 24px rgba(67, 56, 202, 0.08);
+    }
 
     .header-inner {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        gap: 24px;
         padding: 18px 32px;
         max-width: 1180px;
         margin: 0 auto;
+        transition: padding 0.3s ease;
+    }
+
+    &.is-scrolled .header-inner {
+        padding-top: 12px;
+        padding-bottom: 12px;
     }
 
     .logo {
         font-family: "Space Grotesk", sans-serif;
         font-weight: 700;
         font-size: 1.3rem;
-        display: flex;
-        align-items: center;
-        gap: 8px;
+
+        a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
         .logo-img {
             width: 40px;
@@ -36,23 +54,147 @@ header {
     nav {
         display: flex;
         align-items: center;
-        gap: 36px;
+        gap: 32px;
 
         a.nav-link {
+            position: relative;
             font-size: 0.95rem;
             font-weight: 500;
             color: v.$text-muted;
             transition: color 0.2s ease;
 
-            &:hover {
-                color: v.$indigo;
+            &::after {
+                content: "";
+                position: absolute;
+                left: 0;
+                right: 0;
+                bottom: -6px;
+                height: 2px;
+                border-radius: 2px;
+                background: linear-gradient(90deg, v.$indigo, v.$cyan);
+                transform: scaleX(0);
+                transition: transform 0.25s ease;
             }
+
+            &:hover,
+            &.is-active {
+                color: v.$indigo;
+
+                &::after {
+                    transform: scaleX(1);
+                }
+            }
+        }
+
+        .nav-cta {
+            display: none;
+        }
+    }
+
+    .menu-toggle {
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        gap: 5px;
+        width: 42px;
+        height: 42px;
+        padding: 0 10px;
+        border: 1px solid v.$glass-border;
+        border-radius: 12px;
+        background: v.$glass;
+        box-shadow: v.$shadow;
+        cursor: pointer;
+
+        span {
+            display: block;
+            height: 2px;
+            border-radius: 2px;
+            background: v.$text;
+            transition:
+                transform 0.25s ease,
+                opacity 0.2s ease;
+        }
+    }
+
+    &.menu-open .menu-toggle span {
+        &:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+        &:nth-child(2) {
+            opacity: 0;
+        }
+        &:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
         }
     }
 }
 
-@media (max-width: 880px) {
+@media (max-width: 1180px) {
     header nav {
-        display: none;
+        gap: 22px;
+    }
+}
+
+@media (max-width: 1024px) {
+    header {
+        .header-inner {
+            padding: 14px 20px;
+        }
+
+        .header-cta {
+            display: none;
+        }
+
+        .menu-toggle {
+            display: flex;
+        }
+
+        nav {
+            position: absolute;
+            top: 100%;
+            left: 12px;
+            right: 12px;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 4px;
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid v.$glass-border;
+            border-radius: v.$radius;
+            box-shadow: 0 20px 50px rgba(27, 27, 47, 0.12);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition:
+                opacity 0.2s ease,
+                transform 0.2s ease,
+                visibility 0.2s;
+
+            a.nav-link {
+                padding: 12px 14px;
+                border-radius: 12px;
+
+                &::after {
+                    display: none;
+                }
+
+                &:hover,
+                &.is-active {
+                    background: rgba(67, 56, 202, 0.06);
+                }
+            }
+
+            .nav-cta {
+                display: block;
+                text-align: center;
+                margin-top: 8px;
+            }
+        }
+
+        &.menu-open nav {
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+        }
     }
 }

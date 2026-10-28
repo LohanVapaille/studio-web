@@ -13,6 +13,12 @@
                     <a href="#" class="btn-rdv" @click.prevent="contactOpen = true">Prendre rendez-vous</a>
                     <a href="#projets" class="btn-secondary">Voir mes projets</a>
                 </div>
+                <ul class="hero-points">
+                    <li>Devis gratuit et sans engagement</li>
+                    <li>Accompagnement de A à Z</li>
+                    <li>Back-office en autonomie</li>
+                    <li>Maintenance dès 49 € HT/mois</li>
+                </ul>
             </div>
         </section>
 
@@ -24,38 +30,23 @@
                     <p>Du site vitrine à la plateforme sur mesure, chaque projet est pensé selon vos besoins réels.</p>
                 </div>
                 <div class="services-grid">
-                    <div class="glass-card service-card">
-                        <div class="service-icon">①</div>
-                        <h3>Sites vitrines</h3>
-                        <p>Une présence en ligne qui vous ressemble : responsive, rapide et optimisée pour le
-                            référencement.</p>
-                    </div>
-                    <div class="glass-card service-card">
-                        <div class="service-icon">②</div>
-                        <h3>E-commerce</h3>
-                        <p>Boutiques en ligne complètes : catalogue, paiement sécurisé et gestion des commandes.</p>
-                    </div>
-                    <div class="glass-card service-card">
-                        <div class="service-icon">③</div>
-                        <h3>Plateformes e-learning</h3>
-                        <p>Gestion des cours, suivi de progression et back-office complet pour piloter vos formations.
-                        </p>
-                    </div>
-                    <div class="glass-card service-card">
-                        <div class="service-icon">④</div>
-                        <h3>Plateformes communautaires</h3>
-                        <p>Profils, interactions et contenus partagés pensés pour l'engagement de vos utilisateurs.</p>
-                    </div>
-                    <div class="glass-card service-card">
-                        <div class="service-icon">⑤</div>
-                        <h3>Refonte de site</h3>
-                        <p>Modernisation du design, de la performance et de l'ergonomie de votre site existant.</p>
-                    </div>
-                    <div class="glass-card service-card">
-                        <div class="service-icon">⑥</div>
-                        <h3>Messagerie instantanée</h3>
-                        <p>Intégration de chat en temps réel pour fluidifier la communication avec vos utilisateurs.</p>
-                    </div>
+                    @foreach ([
+                            ['title' => 'Sites vitrines', 'text' => "Une présence en ligne qui vous ressemble : responsive, rapide et optimisée pour le référencement.", 'icon' => '<rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>'],
+                            ['title' => 'E-commerce', 'text' => "Boutiques en ligne complètes : catalogue, paiement sécurisé et gestion des commandes.", 'icon' => '<path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/>'],
+                            ['title' => 'Plateformes e-learning', 'text' => "Gestion des cours, suivi de progression et back-office complet pour piloter vos formations.", 'icon' => '<path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/>'],
+                            ['title' => 'Plateformes communautaires', 'text' => "Profils, interactions et contenus partagés pensés pour l'engagement de vos utilisateurs.", 'icon' => '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>'],
+                            ['title' => 'Refonte de site', 'text' => "Modernisation du design, de la performance et de l'ergonomie de votre site existant.", 'icon' => '<path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.5 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.65 4.36A9 9 0 0 0 20.5 15"/>'],
+                            ['title' => 'Messagerie instantanée', 'text' => "Intégration de chat en temps réel pour fluidifier la communication avec vos utilisateurs.", 'icon' => '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>'],
+                        ] as $service)
+                        <div class="glass-card service-card">
+                            <div class="service-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{!! $service['icon'] !!}</svg>
+                            </div>
+                            <h3>{{ $service['title'] }}</h3>
+                            <p>{{ $service['text'] }}</p>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </section>
@@ -100,11 +91,64 @@
             </div>
         </section>
 
+        <section id="methode" class="section-alt">
+            <div class="container">
+                <div class="section-head">
+                    <div class="eyebrow"><span class="eyebrow-dot"></span> Méthode</div>
+                    <h2>Comment se déroule un projet</h2>
+                    <p>Un cadre clair à chaque étape, pour que vous sachiez toujours où en est votre site.</p>
+                </div>
+                <div class="process-grid">
+                    @foreach ([
+                            ['title' => 'Échange & cahier des charges', 'text' => "On discute de vos objectifs et de vos contraintes. Je formalise le besoin dans un cahier des charges et un devis clair, gratuit et sans engagement."],
+                            ['title' => 'Maquette & design', 'text' => "Je conçois l'interface de votre site et vous la validez avant le moindre développement."],
+                            ['title' => 'Développement', 'text' => "Intégration, back-office et tests sur tous les écrans. Vous suivez l'avancement à chaque étape."],
+                            ['title' => 'Mise en ligne & suivi', 'text' => "Déploiement, prise en main du back-office, puis maintenance si vous le souhaitez."],
+                        ] as $step)
+                        <div class="glass-card process-step">
+                            <span class="process-number">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+                            <h3>{{ $step['title'] }}</h3>
+                            <p>{{ $step['text'] }}</p>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+
+        <section id="tarifs">
+            <div class="container">
+                <div class="section-head">
+                    <div class="eyebrow"><span class="eyebrow-dot"></span> Tarifs</div>
+                    <h2>Combien coûte un site&nbsp;?</h2>
+                    <p>Chaque projet est unique : le prix dépend de vos besoins, pas d'une grille toute faite.</p>
+                </div>
+                <div class="glass-card pricing-card">
+                    <div class="pricing-content">
+                        <h3>Un devis sur mesure, offert</h3>
+                        <p>Contactez-moi pour en parler : je vous envoie un devis détaillé et adapté à votre budget.
+                            Même si vous n'avez qu'une petite idée, je serai heureux de vous apporter des conseils.</p>
+                        <ul class="pricing-points">
+                            <li>Devis 100&nbsp;% gratuit</li>
+                            <li>Aucun engagement</li>
+                            <li>Conseils offerts, même pour une simple idée</li>
+                            <li>Un tarif clair, sans mauvaise surprise</li>
+                        </ul>
+                    </div>
+                    <div class="pricing-aside">
+                        <span class="pricing-label">Création de site</span>
+                        <span class="pricing-amount">Sur devis</span>
+                        <span class="pricing-free">Gratuit &amp; sans engagement</span>
+                        <a href="#" class="btn-rdv" @click.prevent="contactOpen = true">Demander mon devis gratuit</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section id="maintenance">
             <div class="container">
                 <div class="section-head">
                     <div class="eyebrow"><span class="eyebrow-dot"></span> Après la mise en ligne</div>
-                    <h2>Une fois le site réalisé, que se passe-t-il ?</h2>
+                    <h2>Une fois le site réalisé, que se <span class="nowrap">passe-t-il&nbsp;?</span></h2>
                     <p>Votre site continue de vivre : mises à jour, sécurité, petites évolutions. Je vous propose un
                         accompagnement mensuel adapté à vos besoins.</p>
                 </div>
@@ -136,12 +180,12 @@
             </div>
         </section>
 
-        <section id="avis">
+        <section id="avis" class="section-alt">
             <div class="container">
                 <div class="section-head">
                     <div class="eyebrow"><span class="eyebrow-dot"></span> Avis clients</div>
                     <h2>Ce qu'en disent mes clients</h2>
-                    <p>Quatre projets, quatre retours d'expérience.</p>
+                    <p>Trois projets, trois retours d'expérience.</p>
                 </div>
                 <div class="reviews-grid">
                     @foreach ([
@@ -156,7 +200,7 @@
                             <p class="review-quote">« {{ $review['quote'] }} »</p>
                             <button type="button" class="review-toggle" aria-expanded="false" hidden>Lire plus</button>
                             <div class="review-author">
-                                <div class="review-avatar"><img src="{{ asset('img/logo_lova.jpg') }}" alt="Oumar S"></div>
+                                <div class="review-avatar"><img src="{{ asset('img/logo_lova.jpg') }}" alt="{{ $review['name'] }}"></div>
                                     <div>
                                         <div class="review-name">{{ $review['name'] }}</div>
                                         <div class="review-role">{{ $review['role'] }}</div>
@@ -165,10 +209,19 @@
                             </div>
                     @endforeach
                 </div>
+            </div>
+        </section>
+
+        <section class="cta-band">
+            <div class="container">
+                <div class="cta-card">
+                    <h2>Un projet en tête&nbsp;? Parlons-en.</h2>
+                    <p>Même s'il ne s'agit que d'une petite idée, écrivez-moi : je serai heureux de vous conseiller.
+                        Le devis est gratuit et ne vous engage à rien.</p>
+                    <a href="#" class="btn-cta" @click.prevent="contactOpen = true">Demander mon devis gratuit</a>
                 </div>
-            </section>
-        
-            </section>
+            </div>
+        </section>
 
             <script>
             document.addEventListener('DOMContentLoaded', () => {

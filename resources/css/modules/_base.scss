@@ -33,7 +33,46 @@ a {
     padding: 0 32px;
 }
 
+:focus-visible {
+    outline: 2px solid v.$indigo-light;
+    outline-offset: 3px;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+// Apparition au défilement (classe ajoutée par app.js)
+.reveal {
+    opacity: 0;
+
+    &.is-visible {
+        animation: reveal-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+}
+
+@keyframes reveal-up {
+    from {
+        opacity: 0;
+        translate: 0 24px;
+    }
+    to {
+        opacity: 1;
+        translate: 0 0;
+    }
+}
+
+@media (max-width: 880px) {
+    .container {
+        padding: 0 20px;
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
     * {
         transition: none !important;
         animation: none !important;

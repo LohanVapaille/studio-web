@@ -1,0 +1,43 @@
+@use "../variables" as v;
+
+.process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+
+    @media (max-width: 1024px) {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    @media (max-width: 540px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.process-step {
+    padding: 30px 24px;
+
+    .process-number {
+        display: inline-block;
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 2rem;
+        font-weight: 700;
+        line-height: 1;
+        margin-bottom: 18px;
+        background: linear-gradient(135deg, v.$indigo, v.$cyan);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    h3 {
+        font-size: 1.05rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    p {
+        font-size: 0.9rem;
+        color: v.$text-muted;
+    }
+}
