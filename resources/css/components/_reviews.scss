@@ -15,8 +15,12 @@
         }
     }
 
-    @media (max-width: 540px) {
+    @media (max-width: 640px) {
         grid-template-columns: 1fr;
+
+        .tedy-review {
+            grid-column: auto;
+        }
     }
 }
 
