@@ -1,0 +1,4 @@
+deployment:
+  tasks:
+    - export DeploymentPath=/home/vapaille/lovaweb.fr
+    - /bin/cp -R * $DeploymentPath
