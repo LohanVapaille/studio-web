@@ -1,2 +1,4 @@
 User-agent: *
 Disallow:
+
+Sitemap: https://lovaweb.fr/sitemap.xml

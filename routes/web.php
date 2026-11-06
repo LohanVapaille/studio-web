@@ -23,3 +23,20 @@ Route::get('/contact', function () {
 });
 
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+
+Route::get('/sitemap.xml', function () {
+    $pages = [
+        ['loc' => route('home'), 'priority' => '1.0', 'changefreq' => 'weekly'],
+        ['loc' => route('projets'), 'priority' => '0.8', 'changefreq' => 'weekly'],
+        ['loc' => route('qui-suis-je'), 'priority' => '0.7', 'changefreq' => 'monthly'],
+    ];
+
+    $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n"
+        . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
+    foreach ($pages as $page) {
+        $xml .= "  <url><loc>{$page['loc']}</loc><changefreq>{$page['changefreq']}</changefreq><priority>{$page['priority']}</priority></url>\n";
+    }
+    $xml .= '</urlset>';
+
+    return response($xml, 200)->header('Content-Type', 'application/xml');
+})->name('sitemap');

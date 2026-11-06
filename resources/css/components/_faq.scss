@@ -1,0 +1,46 @@
+@use "../variables" as v;
+
+.faq-list {
+    display: grid;
+    gap: 14px;
+    max-width: 860px;
+    margin: 0 auto;
+}
+
+.faq-item {
+    padding: 0;
+    overflow: hidden;
+
+    summary {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 20px 24px;
+        font-weight: 600;
+        cursor: pointer;
+        list-style: none;
+
+        &::-webkit-details-marker {
+            display: none;
+        }
+
+        &::after {
+            content: "+";
+            flex-shrink: 0;
+            font-size: 1.4rem;
+            line-height: 1;
+            color: v.$indigo;
+            transition: transform 0.2s ease;
+        }
+    }
+
+    &[open] summary::after {
+        transform: rotate(45deg);
+    }
+
+    p {
+        padding: 0 24px 20px;
+        color: v.$text-muted;
+    }
+}

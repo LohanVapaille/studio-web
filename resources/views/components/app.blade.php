@@ -4,9 +4,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $title ?? 'Lova Web' }}</title>
-    <meta name="description"
-        content="{{ $description ?? "Lova Web — conception de sites vitrines, e-commerce et plateformes sur mesure, de l'idée à la mise en ligne." }}">
+    @php
+        $seoTitle = $title ?? 'Lohan Vapaille — Développeur web freelance en Seine-et-Marne (77) & Île-de-France';
+        $seoDescription = $description ?? "Lohan Vapaille, développeur web freelance basé en Seine-et-Marne (77). Sites vitrines, e-commerce et plateformes sur mesure, qualité agence au prix freelance. Devis gratuit, Île-de-France, France et international.";
+        $seoUrl = url()->current();
+        $seoImage = asset('img/allsites.png');
+    @endphp
+    <title>{{ $seoTitle }}</title>
+    <meta name="description" content="{{ $seoDescription }}">
+    <meta name="author" content="Lohan Vapaille">
+    <meta name="robots" content="{{ $robots ?? 'index, follow, max-image-preview:large' }}">
+    <link rel="canonical" href="{{ $seoUrl }}">
+    <meta name="theme-color" content="#4338ca">
+
+    <!-- Référencement local -->
+    <meta name="geo.region" content="FR-77">
+    <meta name="geo.placename" content="Seine-et-Marne, Île-de-France">
+
+    <!-- Open Graph / réseaux sociaux -->
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:site_name" content="Lova Web — Lohan Vapaille">
+    <meta property="og:title" content="{{ $seoTitle }}">
+    <meta property="og:description" content="{{ $seoDescription }}">
+    <meta property="og:url" content="{{ $seoUrl }}">
+    <meta property="og:image" content="{{ $seoImage }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $seoTitle }}">
+    <meta name="twitter:description" content="{{ $seoDescription }}">
+    <meta name="twitter:image" content="{{ $seoImage }}">
+
+    <!-- Données structurées -->
+    <script type="application/ld+json">
+    {!! json_encode([
+        '@context' => 'https://schema.org',
+        '@graph' => [
+            [
+                '@type' => 'Person',
+                '@id' => url('/') . '#lohan-vapaille',
+                'name' => 'Lohan Vapaille',
+                'jobTitle' => 'Développeur web freelance',
+                'url' => route('qui-suis-je'),
+                'image' => asset('img/logo_lova.jpg'),
+                'worksFor' => ['@id' => url('/') . '#lova-web'],
+                'knowsAbout' => ['Développement web', 'Laravel', 'PHP', 'React', 'JavaScript', 'UI/UX Design', 'SEO', 'E-commerce'],
+                'address' => [
+                    '@type' => 'PostalAddress',
+                    'addressRegion' => 'Seine-et-Marne',
+                    'addressCountry' => 'FR',
+                ],
+            ],
+            [
+                '@type' => 'ProfessionalService',
+                '@id' => url('/') . '#lova-web',
+                'name' => 'Lova Web — Lohan Vapaille, développeur web freelance',
+                'description' => "Création de sites internet sur mesure (vitrines, e-commerce, plateformes) par Lohan Vapaille, développeur web freelance en Seine-et-Marne (77). Qualité agence, prix freelance, devis gratuit.",
+                'url' => url('/'),
+                'logo' => asset('img/logo_lova.jpg'),
+                'image' => $seoImage,
+                'founder' => ['@id' => url('/') . '#lohan-vapaille'],
+                'priceRange' => '€€',
+                'address' => [
+                    '@type' => 'PostalAddress',
+                    'addressRegion' => 'Seine-et-Marne (77), Île-de-France',
+                    'addressCountry' => 'FR',
+                ],
+                'areaServed' => [
+                    ['@type' => 'AdministrativeArea', 'name' => 'Seine-et-Marne'],
+                    ['@type' => 'AdministrativeArea', 'name' => 'Île-de-France'],
+                    ['@type' => 'Country', 'name' => 'France'],
+                    'International',
+                ],
+                'makesOffer' => collect(['Création de site vitrine', 'Création de site e-commerce', 'Plateforme e-learning', 'Plateforme communautaire', 'Refonte de site internet', 'Maintenance de site web'])
+                    ->map(fn ($s) => ['@type' => 'Offer', 'itemOffered' => ['@type' => 'Service', 'name' => $s]])->all(),
+            ],
+            [
+                '@type' => 'WebSite',
+                '@id' => url('/') . '#website',
+                'url' => url('/'),
+                'name' => 'Lova Web — Lohan Vapaille',
+                'inLanguage' => 'fr-FR',
+                'publisher' => ['@id' => url('/') . '#lova-web'],
+            ],
+        ],
+    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
+    </script>
+    {{ $head ?? '' }}
 
     <!-- Polices Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,11 +116,11 @@
         <div class="header-inner">
             <div class="logo">
                 <a href="{{ route('home') }}">
-                    <img src="{{ asset('img/logo_lova.jpg') }}" alt="Logo Lova Web" class="logo-img">
+                    <img src="{{ asset('img/logo_lova.jpg') }}" alt="Lova Web — Lohan Vapaille, développeur web freelance" class="logo-img">
                     <span class="logo-text">Web</span>
                 </a>
             </div>
-            <nav @click="menuOpen = false">
+            <nav @click="menuOpen = false" aria-label="Navigation principale">
                 <a href="{{ route('home') }}#services" class="nav-link">Services</a>
                 <a href="{{ route('home') }}#projets" class="nav-link">Projets</a>
                 <a href="{{ route('home') }}#methode" class="nav-link">Méthode</a>
@@ -67,7 +150,7 @@
                     <img src="{{ asset('img/logo_lova.jpg') }}" alt="Logo Lova Web" class="logo-img">
                     <span class="logo-text">Web</span>
                 </a>
-                <p>Sites vitrines, e-commerce et plateformes sur mesure, de l'idée à la mise en ligne.</p>
+                <p>Lohan Vapaille, développeur web freelance en Seine-et-Marne (77). Sites vitrines, e-commerce et plateformes sur mesure, qualité agence au prix freelance. Île-de-France, toute la France et international.</p>
             </div>
             <div class="footer-col">
                 <h4>Navigation</h4>
@@ -84,7 +167,7 @@
             </div>
         </div>
         <div class="container footer-bottom">
-            © {{ date('Y') }} Lova Web — Tous droits réservés.
+            © {{ date('Y') }} Lova Web — Lohan Vapaille, développeur web freelance (77). Tous droits réservés.
         </div>
     </footer>
 

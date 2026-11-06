@@ -1,29 +1,33 @@
 <x-app>
-    <x-slot:title>Qui suis-je — Studio Lohan</x-slot>
+    <x-slot:title>Qui suis-je — Lohan Vapaille, développeur web freelance (77)</x-slot>
+    <x-slot:description>Découvrez Lohan Vapaille, développeur web freelance en Seine-et-Marne (77) : parcours, compétences (Laravel, PHP, React) et méthode. Sites qualité agence au prix freelance, en Île-de-France et partout en France.</x-slot>
 
         <section class="about-hero">
             <div class="container">
                 <div class="about-intro">
                     <div>
                         <div class="eyebrow"><span class="eyebrow-dot"></span> Qui suis-je</div>
-                        <h1>Développeur web, étudiant en BUT MMI.</h1>
+                        <h1>Lohan Vapaille, développeur web freelance en Seine-et-Marne (77).</h1>
                         <p>
-                            Je m'appelle Lohan. Je conçois des sites et applications web sur mesure, du cahier des
-                            charges jusqu'à la mise en ligne. Mon parcours en BUT Métiers du Multimédia et de l'Internet
+                            Je m'appelle Lohan Vapaille. Basé en Seine-et-Marne (77), je conçois des sites et applications
+                            web sur mesure pour des clients en Île-de-France, partout en France et à l'international, du
+                            cahier des charges jusqu'à la mise en ligne. Mon parcours en BUT Métiers du Multimédia et de l'Internet
                             m'a donné une formation complète : développement, design, gestion de projet — ce qui me
                             permet d'accompagner un client de bout en bout, sans intermédiaire.
                         </p>
                         <p>
                             Au-delà du code, ce qui me motive c'est de transformer une idée en quelque chose de concret
                             et d'utile. J'aime comprendre le besoin réel derrière une demande avant de me lancer dans la
-                            technique, et soigner chaque détail jusqu'à la livraison.
+                            technique, et soigner chaque détail jusqu'à la livraison. Mon objectif : vous livrer un site
+                            de qualité agence, à un prix de freelance bien plus abordable — avec un devis gratuit dès la
+                            présentation de votre projet.
                         </p>
-                        <p class="signature">Lohan — Développeur web</p>
+                        <p class="signature">Lohan Vapaille — Développeur web freelance</p>
                     </div>
                     <div class="about-photo">
 
 
-                        <img src="{{ asset('img/allsites.png') }}" alt="Apercu des sites" class="lohan-photo">
+                        <img src="{{ asset('img/allsites.png') }}" alt="Aperçu des sites réalisés par Lohan Vapaille, développeur web freelance" class="lohan-photo">
 
 
                     </div>

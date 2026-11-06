@@ -1,20 +1,42 @@
 <x-app>
-    <x-slot:title>Studio Lohan — Solutions web modernes</x-slot>
+    <x-slot:title>Lohan Vapaille — Développeur web freelance Seine-et-Marne (77) & Île-de-France</x-slot>
+    <x-slot:description>Lohan Vapaille, développeur web freelance en Seine-et-Marne (77) : création de sites vitrines, e-commerce et plateformes sur mesure. Qualité agence, prix freelance. Devis gratuit en Île-de-France, France et international.</x-slot>
+    <x-slot:head>
+        <script type="application/ld+json">
+        {!! json_encode([
+            '@context' => 'https://schema.org',
+            '@type' => 'FAQPage',
+            'mainEntity' => collect([
+                ['Qui est Lohan Vapaille ?', 'Lohan Vapaille est un développeur web freelance basé en Seine-et-Marne (77). Il conçoit des sites vitrines, des boutiques e-commerce et des plateformes sur mesure pour les indépendants, TPE, PME et associations, de la maquette à la mise en ligne.'],
+                ['Combien coûte la création d’un site internet ?', 'Chaque projet est différent, le prix dépend donc de vos besoins réels. En tant que freelance, je n’ai pas les frais de structure d’une agence : vous obtenez un site de qualité agence à un tarif bien plus abordable. Le devis est gratuit et sans engagement, sur simple présentation de votre projet.'],
+                ['Où intervenez-vous ?', 'Je suis basé en Seine-et-Marne (77) et j’interviens dans toute l’Île-de-France (Paris, Meaux, Melun, Chelles, Marne-la-Vallée, Fontainebleau…). Je travaille aussi à distance partout en France et à l’international.'],
+                ['Pourquoi choisir un développeur freelance plutôt qu’une agence ?', 'Vous avez un interlocuteur unique du début à la fin, des échanges directs et rapides, et un prix plus juste. La qualité, elle, est au niveau d’une agence : design sur mesure, code propre, site rapide, responsive et optimisé pour le référencement.'],
+                ['Pourrai-je modifier mon site moi-même ?', 'Oui. Je livre un back-office simple qui vous permet de gérer vos contenus en autonomie, et je vous accompagne dans sa prise en main. Une maintenance mensuelle est aussi proposée à partir de 49 € HT/mois.'],
+            ])->map(fn ($f) => [
+                '@type' => 'Question',
+                'name' => $f[0],
+                'acceptedAnswer' => ['@type' => 'Answer', 'text' => $f[1]],
+            ])->all(),
+        ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
+        </script>
+    </x-slot>
 
         <section class="hero">
             <div class="blob blob-1" data-depth="1"></div>
             <div class="blob blob-2" data-depth="1.6"></div>
             <div class="hero-inner">
-                <div class="eyebrow"><span class="eyebrow-dot"></span> Disponible pour de nouveaux projets</div>
-                <h1>Des solutions web <span class="accent">modernes</span>, pensées pour votre croissance.</h1>
-                <p>De l'idée au site fonctionnel, je conçois des plateformes sur mesure — vitrines, e-commerce ou
-                    applications métier — avec une attention particulière portée à chaque détail.</p>
+                <div class="eyebrow"><span class="eyebrow-dot"></span> Développeur web freelance · Seine-et-Marne (77) &amp; Île-de-France</div>
+                <h1>Un site web <span class="accent">qualité agence</span>, au prix d'un freelance.</h1>
+                <p>Je suis Lohan Vapaille, développeur web freelance basé en Seine-et-Marne (77). De l'idée au site
+                    en ligne, je conçois des sites vitrines, e-commerce et plateformes sur mesure — pour toute
+                    l'Île-de-France, la France et l'international — avec une attention particulière portée à chaque détail.</p>
                 <div class="hero-ctas">
                     <a href="#" class="btn-rdv" @click.prevent="contactOpen = true">Prendre rendez-vous</a>
                     <a href="#projets" class="btn-secondary">Voir mes projets</a>
                 </div>
                 <ul class="hero-points">
                     <li>Devis gratuit et sans engagement</li>
+                    <li>Qualité agence, prix freelance</li>
                     <li>Accompagnement de A à Z</li>
                     <li>Back-office en autonomie</li>
                     <li>Maintenance dès 49 € HT/mois</li>
@@ -26,8 +48,8 @@
             <div class="container">
                 <div class="section-head">
                     <div class="eyebrow"><span class="eyebrow-dot"></span> Services</div>
-                    <h2>Ce que je peux construire pour vous</h2>
-                    <p>Du site vitrine à la plateforme sur mesure, chaque projet est pensé selon vos besoins réels.</p>
+                    <h2>Création de sites internet sur mesure</h2>
+                    <p>Du site vitrine à la plateforme sur mesure, chaque projet est pensé selon vos besoins réels, avec le soin d'une agence web.</p>
                 </div>
                 <div class="services-grid">
                     @foreach ([
@@ -65,7 +87,7 @@
                         @else
                                 <div class="glass-card project-card">
                             @endif
-                                <div class="project-thumb" @if ($project->main_image)
+                                <div class="project-thumb" role="img" aria-label="Aperçu du projet {{ $project->title }}" @if ($project->main_image)
                                     style="background-image: url('{{ asset($project->main_image) }}'); background-size: cover; background-position: center;"
                                 @endif>
                                 </div>
@@ -120,18 +142,19 @@
                 <div class="section-head">
                     <div class="eyebrow"><span class="eyebrow-dot"></span> Tarifs</div>
                     <h2>Combien coûte un site&nbsp;?</h2>
-                    <p>Chaque projet est unique : le prix dépend de vos besoins, pas d'une grille toute faite.</p>
+                    <p>Chaque projet est unique : le prix dépend de vos besoins, pas d'une grille toute faite. Sans les frais d'une agence, vous payez un prix freelance, bien plus abordable.</p>
                 </div>
                 <div class="glass-card pricing-card">
                     <div class="pricing-content">
                         <h3>Un devis sur mesure, offert</h3>
-                        <p>Contactez-moi pour en parler : je vous envoie un devis détaillé et adapté à votre budget.
+                        <p>Présentez-moi votre projet : je vous envoie un devis gratuit, détaillé et adapté à votre budget.
                             Même si vous n'avez qu'une petite idée, je serai heureux de vous apporter des conseils.</p>
                         <ul class="pricing-points">
                             <li>Devis 100&nbsp;% gratuit</li>
                             <li>Aucun engagement</li>
                             <li>Conseils offerts, même pour une simple idée</li>
                             <li>Un tarif clair, sans mauvaise surprise</li>
+                            <li>Qualité agence, tarif freelance</li>
                         </ul>
                     </div>
                     <div class="pricing-aside">
@@ -208,6 +231,38 @@
                             </div>
                             </div>
                     @endforeach
+                </div>
+            </div>
+        </section>
+
+        <section id="faq">
+            <div class="container">
+                <div class="section-head">
+                    <div class="eyebrow"><span class="eyebrow-dot"></span> FAQ</div>
+                    <h2>Questions fréquentes</h2>
+                    <p>Tout ce qu'il faut savoir avant de lancer votre projet de site internet.</p>
+                </div>
+                <div class="faq-list">
+                    <details class="glass-card faq-item">
+                        <summary>Qui est Lohan Vapaille ?</summary>
+                        <p>Lohan Vapaille est un développeur web freelance basé en Seine-et-Marne (77). Il conçoit des sites vitrines, des boutiques e-commerce et des plateformes sur mesure pour les indépendants, TPE, PME et associations, de la maquette à la mise en ligne.</p>
+                    </details>
+                    <details class="glass-card faq-item">
+                        <summary>Combien coûte la création d’un site internet ?</summary>
+                        <p>Chaque projet est différent, le prix dépend donc de vos besoins réels. En tant que freelance, je n'ai pas les frais de structure d'une agence : vous obtenez un site de qualité agence à un tarif bien plus abordable. Le devis est gratuit et sans engagement, sur simple présentation de votre projet.</p>
+                    </details>
+                    <details class="glass-card faq-item">
+                        <summary>Où intervenez-vous ?</summary>
+                        <p>Je suis basé en Seine-et-Marne (77) et j'interviens dans toute l'Île-de-France (Paris, Meaux, Melun, Chelles, Marne-la-Vallée, Fontainebleau…). Je travaille aussi à distance partout en France et à l'international.</p>
+                    </details>
+                    <details class="glass-card faq-item">
+                        <summary>Pourquoi choisir un développeur freelance plutôt qu’une agence ?</summary>
+                        <p>Vous avez un interlocuteur unique du début à la fin, des échanges directs et rapides, et un prix plus juste. La qualité, elle, est au niveau d'une agence : design sur mesure, code propre, site rapide, responsive et optimisé pour le référencement.</p>
+                    </details>
+                    <details class="glass-card faq-item">
+                        <summary>Pourrai-je modifier mon site moi-même ?</summary>
+                        <p>Oui. Je livre un back-office simple qui vous permet de gérer vos contenus en autonomie, et je vous accompagne dans sa prise en main. Une maintenance mensuelle est aussi proposée à partir de 49 € HT/mois.</p>
+                    </details>
                 </div>
             </div>
         </section>
