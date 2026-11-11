@@ -12,3 +12,13 @@ $text-muted: #5c5f73;
 // Effets
 $shadow: 0 8px 32px rgba(67, 56, 202, 0.08);
 $radius: 20px;
+
+// Hero animé / intro / transitions
+$lw-bg: #f7f7fb;
+$lw-indigo: #4f46e5;
+$lw-indigo-dark: #312e81;
+$lw-cyan: #22d3ee;
+$lw-gradient: linear-gradient(135deg, $lw-indigo, $lw-cyan);
+$lw-glass-bg: rgba(255, 255, 255, 0.25);
+$lw-glass-border: rgba(255, 255, 255, 0.4);
+$lw-glass-shadow: 0 10px 40px rgba(49, 46, 129, 0.14);

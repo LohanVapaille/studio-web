@@ -98,6 +98,18 @@
         rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="{{ asset('img/logo_lova.jpg') }}">
 
+    <!-- Transition entre pages : le rideau couvre la page avant le premier rendu -->
+    <script>
+        try {
+            if (sessionStorage.getItem('lova:page-transition')) {
+                sessionStorage.removeItem('lova:page-transition');
+                document.documentElement.classList.add('pt-arriving');
+                // filet de sécurité si le JS ne se charge pas
+                setTimeout(function () { document.documentElement.classList.remove('pt-arriving'); }, 3000);
+            }
+        } catch (e) {}
+    </script>
+
     <!-- Alpine.js -->
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.5/cdn.min.js"></script>
 
@@ -109,7 +121,9 @@
     contactOpen: false,
     toastOpen: {{ session('success') || session('error') ? 'true' : 'false' }},
     toastType: '{{ session('success') ? 'success' : (session('error') ? 'error' : '') }}'
-}">
+}" @click="window.lovaTransition && window.lovaTransition.handle($event)">
+
+    <x-page-transition />
 
     <header x-data="{ menuOpen: false, scrolled: false }" @scroll.window="scrolled = window.scrollY > 8"
         :class="{ 'is-scrolled': scrolled, 'menu-open': menuOpen }">

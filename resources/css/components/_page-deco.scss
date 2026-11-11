@@ -1,0 +1,128 @@
+@use "../variables" as v;
+
+// =============================================================================
+// Décor de page : petits éléments bleus et blancs qui flottent sur tout le scroll
+// JS : resources/js/page-deco.js — Blade : <x-page-deco />
+// =============================================================================
+
+main:has(> .page-deco) {
+    position: relative;
+}
+
+.page-deco {
+    position: absolute;
+    inset: 0;
+    z-index: 0; // sous les sections (z-index: 1)
+    overflow: clip;
+    pointer-events: none;
+}
+
+.deco {
+    position: absolute;
+    width: var(--size);
+    height: var(--size);
+    margin: calc(var(--size) / -2) 0 0 calc(var(--size) / -2);
+    opacity: var(--o);
+    will-change: transform;
+
+    // couleurs
+    &--blue {
+        --fill: #{v.$lw-gradient};
+        color: v.$lw-indigo;
+    }
+
+    &--cyan {
+        --fill: #{v.$lw-cyan};
+        color: v.$lw-cyan;
+    }
+
+    &--white {
+        --fill: rgba(255, 255, 255, 0.9);
+        color: #fff;
+
+        .deco-inner {
+            filter: drop-shadow(0 3px 8px rgba(v.$lw-indigo, 0.22));
+        }
+    }
+
+    &--outline {
+        --fill: transparent;
+        color: v.$lw-indigo;
+    }
+}
+
+.deco-inner {
+    position: absolute;
+    inset: 0;
+    animation: deco-float var(--dur) ease-in-out var(--delay) infinite;
+}
+
+// formes
+.deco--dot .deco-inner,
+.deco--square .deco-inner,
+.deco--pill .deco-inner {
+    background: var(--fill);
+}
+
+.deco--outline:is(.deco--dot, .deco--square, .deco--pill) .deco-inner {
+    border: 2px solid currentColor;
+}
+
+.deco--dot .deco-inner {
+    border-radius: 50%;
+}
+
+.deco--square .deco-inner {
+    border-radius: 30%;
+}
+
+.deco--pill {
+    width: calc(var(--size) * 2.2);
+    height: calc(var(--size) * 0.75);
+
+    .deco-inner {
+        border-radius: 999px;
+    }
+}
+
+.deco--ring .deco-inner {
+    border-radius: 50%;
+    border: max(2px, calc(var(--size) * 0.16)) solid currentColor;
+}
+
+.deco--plus .deco-inner {
+    &::before,
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 38% 0;
+        border-radius: 99px;
+        background: currentColor;
+    }
+
+    &::after {
+        inset: 0 38%;
+    }
+}
+
+@keyframes deco-float {
+    0%,
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+        transform: translate(var(--dx), calc(var(--dy) * -1)) rotate(var(--rot));
+    }
+    50% {
+        transform: translate(0, var(--dy)) rotate(0deg);
+    }
+    75% {
+        transform: translate(calc(var(--dx) * -1), calc(var(--dy) * -0.5)) rotate(calc(var(--rot) * -1));
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .deco-inner {
+        animation: none;
+    }
+}

@@ -1,0 +1,438 @@
+@use "../variables" as v;
+
+// =============================================================================
+// Hero animé + intro « on construit votre site sous vos yeux »
+// JS : resources/js/hero-intro.js — Blade : <x-hero-intro />
+// =============================================================================
+
+@mixin glass {
+    background: v.$lw-glass-bg;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid v.$lw-glass-border;
+    box-shadow: v.$lw-glass-shadow;
+}
+
+// -----------------------------------------------------------------------------
+// Hero
+// -----------------------------------------------------------------------------
+.hero--animated {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: min(calc(100svh - 80px), 860px);
+    padding: clamp(40px, 6vh, 80px) 24px clamp(32px, 5vh, 56px);
+    overflow-x: clip; // les formes peuvent sortir sans créer de scroll horizontal
+    background: radial-gradient(circle at 0% 0%, rgba(v.$lw-cyan, 0.14), transparent 45%);
+
+    .hero-inner {
+        width: 100%;
+        max-width: 1120px;
+    }
+
+    h1 {
+        font-family: "Space Grotesk", sans-serif;
+        font-weight: 700;
+        font-size: clamp(3rem, 8vw, 7rem);
+        line-height: 1.02;
+        letter-spacing: -0.035em;
+        color: v.$lw-indigo-dark;
+        margin-bottom: 28px;
+    }
+
+    // mot-clé surligné : le dégradé se « dessine » de gauche à droite (JS)
+    .hl {
+        background-image: linear-gradient(90deg, rgba(v.$lw-indigo, 0.35), rgba(v.$lw-cyan, 0.55));
+        background-repeat: no-repeat;
+        background-position: 0 88%;
+        background-size: 100% 0.38em;
+        -webkit-box-decoration-break: clone;
+        box-decoration-break: clone;
+        padding: 0 0.04em;
+    }
+
+    p {
+        max-width: 600px;
+    }
+
+    // Badge : sur téléphone, 2 lignes propres (métier / zone) au lieu d'un retour à la ligne subi
+    .eyebrow--hero {
+        gap: 8px;
+
+        @media (max-width: 600px) {
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2px 7px;
+            max-width: 290px;
+            padding: 9px 18px;
+            border-radius: 18px;
+            font-size: 0.76rem;
+            line-height: 1.35;
+
+            .eyebrow-sep {
+                display: none;
+            }
+
+            .eyebrow-loc {
+                flex-basis: 100%;
+                font-weight: 500;
+                color: rgba(v.$lw-indigo-dark, 0.65);
+            }
+        }
+    }
+
+    // la section qui suit le hero n'a pas besoin de sa marge haute complète
+    & + section {
+        padding-top: clamp(24px, 3vw, 40px);
+    }
+
+    @media (max-width: 880px) {
+        min-height: auto;
+
+        h1 {
+            font-size: clamp(2.6rem, 11vw, 3.4rem);
+        }
+    }
+}
+
+// Lettres découpées pendant l'intro (le HTML d'origine est restauré à la fin)
+.split-word {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    // marge pour les accents et jambages, sans changer la hauteur de ligne
+    padding: 0.12em 0.02em 0.14em;
+    margin: -0.12em -0.02em -0.14em;
+}
+
+.split-char {
+    display: inline-block;
+    will-change: transform;
+}
+
+.hero-defs {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+// -----------------------------------------------------------------------------
+// Formes
+// -----------------------------------------------------------------------------
+.hero-shapes {
+    position: absolute;
+    inset: 0;
+    z-index: 1; // sous .hero-inner (z-index: 2)
+    pointer-events: none;
+}
+
+.shape {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0; // le JS les place puis les révèle
+    will-change: transform, opacity;
+}
+
+.shape-scroll,
+.shape-parallax,
+.shape-float,
+.shape-geo {
+    position: absolute;
+    inset: 0;
+}
+
+.shape-geo {
+    svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+    }
+
+    path {
+        stroke-linejoin: round;
+        stroke-linecap: round;
+    }
+}
+
+.geo--circle,
+.geo--ring {
+    border-radius: 50%;
+}
+
+.geo--square {
+    border-radius: 28%;
+}
+
+.geo--pill {
+    border-radius: 999px;
+}
+
+// anneau plein : on évide le centre avec un masque
+%ring-mask {
+    -webkit-mask: radial-gradient(farthest-side, transparent 60%, #000 61%);
+    mask: radial-gradient(farthest-side, transparent 60%, #000 61%);
+}
+
+// a) pleines, dégradé indigo → cyan
+.shape--gradient {
+    .geo--circle,
+    .geo--square,
+    .geo--pill,
+    .geo--ring {
+        background: v.$lw-gradient;
+        box-shadow: 0 12px 30px rgba(v.$lw-indigo, 0.25);
+    }
+
+    .geo--ring {
+        @extend %ring-mask;
+    }
+
+    path {
+        fill: url(#lw-shape-gradient);
+        stroke: url(#lw-shape-gradient);
+        stroke-width: 14;
+    }
+
+    svg {
+        filter: drop-shadow(0 10px 18px rgba(v.$lw-indigo, 0.25));
+    }
+}
+
+// b) contour seul, 3px indigo
+.shape--outline {
+    .geo--circle,
+    .geo--square,
+    .geo--pill,
+    .geo--ring {
+        border: 3px solid v.$lw-indigo;
+    }
+
+    // anneau en contour : double cercle
+    .geo--ring::after {
+        content: "";
+        position: absolute;
+        inset: 28%;
+        border: 3px solid v.$lw-indigo;
+        border-radius: 50%;
+    }
+
+    path {
+        fill: none;
+        stroke: v.$lw-indigo;
+        stroke-width: 3;
+        vector-effect: non-scaling-stroke;
+    }
+}
+
+// c) verre
+.shape--glass {
+    .geo--circle,
+    .geo--square,
+    .geo--pill,
+    .geo--ring {
+        @include glass;
+    }
+
+    .geo--ring {
+        @extend %ring-mask;
+    }
+
+    path {
+        fill: rgba(255, 255, 255, 0.35);
+        stroke: rgba(255, 255, 255, 0.7);
+        stroke-width: 2;
+        vector-effect: non-scaling-stroke;
+    }
+
+    svg {
+        filter: drop-shadow(0 10px 24px rgba(v.$lw-indigo-dark, 0.16));
+    }
+}
+
+// Pièces de la maquette (pendant l'intro uniquement)
+.shape-block,
+.shape-flash {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.shape-block {
+    opacity: 0;
+
+    // barre de navigation + 3 boutons de navigateur
+    &[data-block="nav"] {
+        background:
+            radial-gradient(circle at 16px 50%, #fff 0 4px, transparent 4.5px),
+            radial-gradient(circle at 30px 50%, rgba(255, 255, 255, 0.75) 0 4px, transparent 4.5px),
+            radial-gradient(circle at 44px 50%, rgba(255, 255, 255, 0.5) 0 4px, transparent 4.5px),
+            v.$lw-gradient;
+        box-shadow: 0 8px 24px rgba(v.$lw-indigo, 0.25);
+    }
+
+    &[data-block="glass"] {
+        @include glass;
+        background:
+            linear-gradient(135deg, rgba(v.$lw-indigo, 0.1), rgba(v.$lw-cyan, 0.12)),
+            v.$lw-glass-bg;
+        border-color: rgba(v.$lw-indigo, 0.18);
+    }
+
+    &[data-block="line"] {
+        background: linear-gradient(90deg, rgba(v.$lw-indigo, 0.6), rgba(v.$lw-indigo, 0.25));
+    }
+
+    &[data-block="cta"] {
+        background: v.$lw-cyan;
+        box-shadow: 0 8px 22px rgba(v.$lw-cyan, 0.45);
+    }
+}
+
+.shape-flash {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 0 24px 6px rgba(255, 255, 255, 0.8);
+    opacity: 0;
+}
+
+// Trait lumineux qui balaie la maquette (mask-position animé)
+.hero-scan {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 440px;
+    height: 300px;
+    border-radius: 14px;
+    background: linear-gradient(115deg, v.$lw-cyan, #a5f3fc, v.$lw-cyan);
+    -webkit-mask-image: linear-gradient(115deg, transparent 44%, #000 50%, transparent 56%);
+    mask-image: linear-gradient(115deg, transparent 44%, #000 50%, transparent 56%);
+    -webkit-mask-size: 300% 300%;
+    mask-size: 300% 300%;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: 100% 100%;
+    mask-position: 100% 100%;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 20;
+}
+
+// -----------------------------------------------------------------------------
+// Couche d'intro (fixed, par-dessus la page)
+// -----------------------------------------------------------------------------
+.hero-intro {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    background:
+        radial-gradient(circle at 0% 0%, rgba(v.$lw-cyan, 0.16), transparent 50%),
+        v.$lw-bg;
+
+    &__stage {
+        position: absolute;
+        inset: 0;
+    }
+
+    &__dot,
+    &__pulse,
+    &__frame {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+    }
+
+    &__dot {
+        width: 18px;
+        height: 18px;
+        margin: -9px 0 0 -9px;
+        border-radius: 50%;
+        background: v.$lw-cyan;
+        box-shadow: 0 0 22px rgba(v.$lw-cyan, 0.7);
+        transform: scale(0);
+    }
+
+    &__pulse {
+        width: 18px;
+        height: 18px;
+        margin: -9px 0 0 -9px;
+        border-radius: 50%;
+        border: 2px solid v.$lw-cyan;
+        opacity: 0;
+    }
+
+    // contour de la « page » en cours de construction
+    &__frame {
+        width: 440px;
+        height: 300px;
+        margin: -150px 0 0 -220px;
+        border: 1.5px dashed rgba(v.$lw-indigo, 0.3);
+        border-radius: 14px;
+        opacity: 0;
+    }
+
+    &__skip {
+        position: absolute;
+        right: 24px;
+        bottom: 24px;
+        padding: 8px 16px;
+        border: 1px solid rgba(v.$lw-indigo, 0.15);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.5);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        color: rgba(v.$lw-indigo-dark, 0.7);
+        font: 500 0.8rem/1 "Inter", sans-serif;
+        letter-spacing: 0.02em;
+        cursor: pointer;
+        transition:
+            color 0.2s ease,
+            background 0.2s ease;
+
+        &:hover,
+        &:focus-visible {
+            color: v.$lw-indigo-dark;
+            background: rgba(255, 255, 255, 0.85);
+        }
+    }
+}
+
+// État « intro en attente / en cours » (classe posée par le script inline)
+html.intro-pending {
+    overflow: hidden;
+    scrollbar-gutter: stable;
+
+    // le hero passe au-dessus du header (z 100) et des boutons flottants (z 200-300)
+    .hero--animated {
+        z-index: 1000;
+    }
+
+    .hero-intro {
+        display: block;
+    }
+
+    .hero-shapes {
+        z-index: 11;
+    }
+}
+
+// -----------------------------------------------------------------------------
+// Accessibilité : pas de mouvement → état final directement
+// -----------------------------------------------------------------------------
+@media (prefers-reduced-motion: reduce) {
+    .hero-intro,
+    .hero-scan {
+        display: none !important;
+    }
+
+    .split-char {
+        transform: none !important;
+    }
+}

@@ -1,4 +1,12 @@
 import "./bootstrap";
+import { initPageTransition } from "./page-transition";
+import { initHeroIntro } from "./hero-intro";
+import { initPageDeco } from "./page-deco";
+
+// les modules s'exécutent après le parsing du HTML : le DOM est prêt
+initPageTransition();
+initHeroIntro();
+initPageDeco();
 
 // Apparition des blocs au défilement
 document.addEventListener("DOMContentLoaded", () => {

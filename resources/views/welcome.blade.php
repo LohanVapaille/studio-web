@@ -21,20 +21,26 @@
         </script>
     </x-slot>
 
-        <section class="hero">
-            <div class="blob blob-1" data-depth="1"></div>
-            <div class="blob blob-2" data-depth="1.6"></div>
+        <x-page-deco />
+
+        <section class="hero hero--animated" data-hero>
+            <x-hero-intro />
             <div class="hero-inner">
-                <div class="eyebrow"><span class="eyebrow-dot"></span> Développeur web freelance · Seine-et-Marne (77) &amp; Île-de-France</div>
-                <h1>Un site web <span class="accent">qualité agence</span>, au prix d'un freelance.</h1>
-                <p>Je suis Lohan Vapaille, développeur web freelance basé en Seine-et-Marne (77). De l'idée au site
+                <div class="eyebrow eyebrow--hero" data-hero-eyebrow>
+                    <span class="eyebrow-dot"></span>
+                    <span>Développeur web freelance</span>
+                    <span class="eyebrow-sep" aria-hidden="true">·</span>
+                    <span class="eyebrow-loc">Seine-et-Marne (77) &amp; Île-de-France</span>
+                </div>
+                <h1 data-hero-title>Un site web <span class="hl">qualité agence</span>, au prix d'un freelance.</h1>
+                <p data-hero-sub>Je suis Lohan Vapaille, développeur web freelance basé en Seine-et-Marne (77). De l'idée au site
                     en ligne, je conçois des sites vitrines, e-commerce et plateformes sur mesure — pour toute
                     l'Île-de-France, la France et l'international — avec une attention particulière portée à chaque détail.</p>
-                <div class="hero-ctas">
+                <div class="hero-ctas" data-hero-ctas>
                     <a href="#" class="btn-rdv" @click.prevent="contactOpen = true">Prendre rendez-vous</a>
                     <a href="#projets" class="btn-secondary">Voir mes projets</a>
                 </div>
-                <ul class="hero-points">
+                <ul class="hero-points" data-hero-points>
                     <li>Devis gratuit et sans engagement</li>
                     <li>Qualité agence, prix freelance</li>
                     <li>Accompagnement de A à Z</li>
@@ -279,37 +285,6 @@
         </section>
 
             <script>
-            document.addEventListener('DOMContentLoaded', () => {
-        const hero = document.querySelector('.hero');
-                const blobs = document.querySelectorAll('.hero .blob');
-                if (!hero || !blobs.length) return;
-        
-                let mouseX = 0, mouseY = 0;
-                let currentX = 0, currentY = 0;
-        
-        hero.addEventListener('mousemove', (e) => {
-                    const rect = hero.getBoundingClientRect();
-                    // position relative au centre du hero, normalisée entre -1 et 1
-                    mouseX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
-            mouseY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-                });
-        
-                function animate() {
-                    currentX += (mouseX - currentX) * 0.06;
-                    currentY += (mouseY - currentY) * 0.06;
-        
-            blobs.forEach((blob) => {
-                        const depth = parseFloat(blob.dataset.depth || 1);
-                        const moveX = currentX * 40 * depth;
-                        const moveY = currentY * 40 * depth;
-                        blob.style.transform = `translate(${moveX}px, ${moveY}px)`;
-                });
-
-            requestAnimationFrame(animate);
-        }
-        animate();
-    });
-
     // "Lire plus" sur les avis trop longs
     document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.review-card').forEach((card) => {
