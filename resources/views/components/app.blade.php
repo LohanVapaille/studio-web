@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @php
-        $seoTitle = $title ?? 'Lohan Vapaille — Développeur web freelance en Seine-et-Marne (77) & Île-de-France';
-        $seoDescription = $description ?? "Lohan Vapaille, développeur web freelance basé en Seine-et-Marne (77). Sites vitrines, e-commerce et plateformes sur mesure, qualité agence au prix freelance. Devis gratuit, Île-de-France, France et international.";
+        $seoTitle = $title ?? 'Lovaweb - Lohan Vapaille — Développeur web freelance en Seine-et-Marne (77) & Île-de-France';
+        $seoDescription = $description ?? "Lovaweb — Lohan Vapaille, développeur web freelance basé en Seine-et-Marne (77). Sites vitrines, e-commerce et plateformes sur mesure, qualité agence au prix freelance. Devis gratuit, Île-de-France, France et international.";
         $seoUrl = url()->current();
-        $seoImage = asset('img/allsites.png');
+        $seoImage = isset($image) ? trim((string) $image) : asset('img/allsites.png');
     @endphp
     <title>{{ $seoTitle }}</title>
     <meta name="description" content="{{ $seoDescription }}">
@@ -24,7 +24,7 @@
     <!-- Open Graph / réseaux sociaux -->
     <meta property="og:type" content="website">
     <meta property="og:locale" content="fr_FR">
-    <meta property="og:site_name" content="Lova Web — Lohan Vapaille">
+    <meta property="og:site_name" content="Lovaweb — Lohan Vapaille">
     <meta property="og:title" content="{{ $seoTitle }}">
     <meta property="og:description" content="{{ $seoDescription }}">
     <meta property="og:url" content="{{ $seoUrl }}">
@@ -46,7 +46,7 @@
                 'jobTitle' => 'Développeur web freelance',
                 'url' => route('qui-suis-je'),
                 'image' => asset('img/logo_lova.jpg'),
-                'worksFor' => ['@id' => url('/') . '#lova-web'],
+                'worksFor' => ['@id' => url('/') . '#lovaweb'],
                 'knowsAbout' => ['Développement web', 'Laravel', 'PHP', 'React', 'JavaScript', 'UI/UX Design', 'SEO', 'E-commerce'],
                 'address' => [
                     '@type' => 'PostalAddress',
@@ -56,8 +56,8 @@
             ],
             [
                 '@type' => 'ProfessionalService',
-                '@id' => url('/') . '#lova-web',
-                'name' => 'Lova Web — Lohan Vapaille, développeur web freelance',
+                '@id' => url('/') . '#lovaweb',
+                'name' => 'Lovaweb — Lohan Vapaille, développeur web freelance',
                 'description' => "Création de sites internet sur mesure (vitrines, e-commerce, plateformes) par Lohan Vapaille, développeur web freelance en Seine-et-Marne (77). Qualité agence, prix freelance, devis gratuit.",
                 'url' => url('/'),
                 'logo' => asset('img/logo_lova.jpg'),
@@ -82,9 +82,9 @@
                 '@type' => 'WebSite',
                 '@id' => url('/') . '#website',
                 'url' => url('/'),
-                'name' => 'Lova Web — Lohan Vapaille',
+                'name' => 'Lovaweb — Lohan Vapaille',
                 'inLanguage' => 'fr-FR',
-                'publisher' => ['@id' => url('/') . '#lova-web'],
+                'publisher' => ['@id' => url('/') . '#lovaweb'],
             ],
         ],
     ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
@@ -130,7 +130,7 @@
         <div class="header-inner">
             <div class="logo">
                 <a href="{{ route('home') }}">
-                    <img src="{{ asset('img/logo_lova.jpg') }}" alt="Lova Web — Lohan Vapaille, développeur web freelance" class="logo-img">
+                    <img src="{{ asset('img/logo_lova.jpg') }}" alt="Lovaweb — Lohan Vapaille, développeur web freelance" class="logo-img">
                     <span class="logo-text">Web</span>
                 </a>
             </div>
@@ -142,6 +142,8 @@
                 <a href="{{ route('home') }}#maintenance" class="nav-link">Maintenance</a>
                 <a href="{{ route('qui-suis-je') }}"
                     class="nav-link {{ request()->routeIs('qui-suis-je') ? 'is-active' : '' }}">Qui suis-je</a>
+                <a href="{{ route('blog.index') }}"
+                    class="nav-link {{ request()->routeIs('blog.*') ? 'is-active' : '' }}">Blog</a>
                 <a href="#" class="btn-rdv nav-cta" @click.prevent="contactOpen = true">Prendre rendez-vous</a>
             </nav>
             <a href="#" class="btn-rdv header-cta" @click.prevent="contactOpen = true">Prendre rendez-vous</a>
@@ -161,7 +163,7 @@
         <div class="container footer-inner">
             <div class="footer-brand">
                 <a href="{{ route('home') }}" class="logo">
-                    <img src="{{ asset('img/logo_lova.jpg') }}" alt="Logo Lova Web" class="logo-img">
+                    <img src="{{ asset('img/logo_lova.jpg') }}" alt="Logo Lovaweb" class="logo-img">
                     <span class="logo-text">Web</span>
                 </a>
                 <p>Lohan Vapaille, développeur web freelance en Seine-et-Marne (77). Sites vitrines, e-commerce et plateformes sur mesure, qualité agence au prix freelance. Île-de-France, toute la France et international.</p>
@@ -173,6 +175,7 @@
                 <a href="{{ route('home') }}#tarifs">Tarifs</a>
                 <a href="{{ route('home') }}#maintenance">Maintenance</a>
                 <a href="{{ route('qui-suis-je') }}">Qui suis-je</a>
+                <a href="{{ route('blog.index') }}">Blog</a>
             </div>
             <div class="footer-col">
                 <h4>Contact</h4>
@@ -181,7 +184,7 @@
             </div>
         </div>
         <div class="container footer-bottom">
-            © {{ date('Y') }} Lova Web — Lohan Vapaille, développeur web freelance (77). Tous droits réservés.
+            © {{ date('Y') }} Lovaweb — Lohan Vapaille, développeur web freelance (77). Tous droits réservés.
         </div>
     </footer>
 

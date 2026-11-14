@@ -1,5 +1,5 @@
 /**
- * Intro + hero animé — Lova Web
+ * Intro + hero animé — Lovaweb
  * « On construit votre site sous vos yeux »
  *
  * 1. Le point       : un point cyan apparaît et pulse 2 fois

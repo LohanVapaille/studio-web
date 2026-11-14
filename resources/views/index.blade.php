@@ -1,6 +1,6 @@
 <x-app>
-    <x-slot:title>LovaWeb - Réalisations — Lohan Vapaille, développeur web freelance (77)</x-slot>
-        <x-slot:description>Portfolio de LovaWeb & de Lohan Vapaille, développeur web freelance en Seine-et-Marne (77) :
+    <x-slot:title>Lovaweb - Réalisations — Lohan Vapaille, développeur web freelance (77)</x-slot>
+        <x-slot:description>Portfolio de Lovaweb & de Lohan Vapaille, développeur web freelance en Seine-et-Marne (77) :
             sites vitrines, e-commerce et plateformes sur mesure réalisés pour des clients en Île-de-France et en
             France.</x-slot>
 

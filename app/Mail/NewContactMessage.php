@@ -17,7 +17,7 @@ class NewContactMessage extends Mailable
 
     public function build()
     {
-        return $this->subject('Nouveau message — Lova Web')
+        return $this->subject('Nouveau message — Lovaweb')
             ->replyTo($this->contactMessage->email, $this->contactMessage->name)
             ->view('emails.contact');
     }

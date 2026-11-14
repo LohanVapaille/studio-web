@@ -1,6 +1,6 @@
 <x-app>
-    <x-slot:title>LovaWeb - Lohan Vapaille — Développeur web freelance Seine-et-Marne (77) & Île-de-France</x-slot>
-        <x-slot:description>LovaWeb — Lohan Vapaille, développeur web freelance en Seine-et-Marne (77) : création de
+    <x-slot:title>Lovaweb - Lohan Vapaille — Développeur web freelance Seine-et-Marne (77) & Île-de-France</x-slot>
+        <x-slot:description>Lovaweb — Lohan Vapaille, développeur web freelance en Seine-et-Marne (77) : création de
             sites
             vitrines, e-commerce et plateformes sur mesure. Qualité agence, prix freelance. Devis gratuit en
             Île-de-France, France et international.</x-slot>
@@ -229,35 +229,66 @@
 
                 <section id="avis" class="section-alt">
                     <div class="container">
+                        @php
+                            // Avis saisis à la main : utilisés si l'API Google n'est pas configurée ou indisponible
+                            $manualReviews = [
+                                ['name' => 'Oumar S', 'role' => 'HuntersTeam', 'quote' => "Le site internet convient parfaitement à ce que nous avions besoin. Nous pouvons gérer tout le contenu en autonomie grâce au back-office."],
+                                ['name' => 'Sandrine V', 'role' => 'Bulle de Bonheur', 'quote' => "Prestation rapide, site internet livré dans les temps. Lohan est toujours bienveillant et conseille au mieux pour que le projet soit réussi. Je recommande vivement !"],
+                                ['name' => 'Tedy F', 'class' => 'tedy-review', 'role' => 'Coach CRPE Tedy Florette', 'quote' => "Je recommande vivement les services de ce webdesigner. Dès le début du projet, il a fait preuve d'une grande réactivité et d'une excellente compréhension de mes besoins. Le résultat est parfaitement conforme à mes attentes, tant sur le plan esthétique que fonctionnel. Au-delà de ses compétences techniques, j'ai particulièrement apprécié sa disponibilité, son écoute et sa capacité à être force de proposition..."],
+                            ];
+                            $fromGoogle = ! empty($googleReviews['reviews']);
+                            $reviews = $fromGoogle ? $googleReviews['reviews'] : $manualReviews;
+                            $placeId = config('services.google_places.place_id');
+                        @endphp
                         <div class="section-head">
                             <div class="eyebrow"><span class="eyebrow-dot"></span> Avis clients</div>
                             <h2>Ce qu'en disent mes clients</h2>
-                            <p>Trois projets, trois retours d'expérience.</p>
+                            @if ($fromGoogle && $googleReviews['total'] > 0)
+                                <p class="reviews-summary">
+                                    <span class="reviews-stars" aria-hidden="true">★★★★★</span>
+                                    <strong>{{ number_format($googleReviews['rating'], 1, ',', '') }}/5</strong>
+                                    sur {{ $googleReviews['total'] }} avis Google
+                                </p>
+                            @else
+                                <p>Trois projets, trois retours d'expérience.</p>
+                            @endif
                         </div>
                         <div class="reviews-grid">
-                            @foreach ([
-
-                                    ['name' => 'Oumar S', 'role' => 'HuntersTeam', 'quote' => "Le site internet convient parfaitement à ce que nous avions besoin. Nous pouvons gérer tout le contenu en autonomie grâce au back-office."],
-                                    ['name' => 'Sandrine V', 'role' => 'Bulle de Bonheur', 'quote' => "Prestation rapide, site internet livré dans les temps. Lohan est toujours bienveillant et conseille au mieux pour que le projet soit réussi. Je recommande vivement !"],
-                                    ['name' => 'Tedy F', 'class' => 'tedy-review', 'role' => 'Coach CRPE Tedy Florette', 'quote' => "Je recommande vivement les services de ce webdesigner. Dès le début du projet, il a fait preuve d'une grande réactivité et d'une excellente compréhension de mes besoins. Le résultat est parfaitement conforme à mes attentes, tant sur le plan esthétique que fonctionnel. Au-delà de ses compétences techniques, j'ai particulièrement apprécié sa disponibilité, son écoute et sa capacité à être force de proposition..."],
-
-
-                                ] as $review)
+                            @foreach ($reviews as $review)
                                 <div class="glass-card review-card {{ $review['class'] ?? '' }}">
+                                    @if ($fromGoogle)
+                                        <div class="review-rating" aria-label="{{ $review['rating'] }} étoiles sur 5">
+                                            {{ str_repeat('★', $review['rating']) }}<span class="is-off">{{ str_repeat('★', 5 - $review['rating']) }}</span>
+                                        </div>
+                                    @endif
                                     <p class="review-quote">« {{ $review['quote'] }} »</p>
                                     <button type="button" class="review-toggle" aria-expanded="false" hidden>Lire
                                         plus</button>
                                     <div class="review-author">
-                                        <div class="review-avatar"><img src="{{ asset('img/logo_lova.jpg') }}"
-                                                alt="{{ $review['name'] }}"></div>
+                                        <div class="review-avatar"><img src="{{ $review['photo'] ?? asset('img/logo_lova.jpg') }}"
+                                                alt="{{ $review['name'] }}" loading="lazy" referrerpolicy="no-referrer"></div>
                                         <div>
-                                            <div class="review-name">{{ $review['name'] }}</div>
-                                            <div class="review-role">{{ $review['role'] }}</div>
+                                            @if (! empty($review['author_url']))
+                                                <a class="review-name" href="{{ $review['author_url'] }}" target="_blank" rel="noopener nofollow">{{ $review['name'] }}</a>
+                                            @else
+                                                <div class="review-name">{{ $review['name'] }}</div>
+                                            @endif
+                                            <div class="review-role">{{ $fromGoogle ? 'Avis Google' . ($review['date'] ? ' · ' . $review['date'] : '') : $review['role'] }}</div>
                                         </div>
                                     </div>
                                 </div>
                             @endforeach
                         </div>
+                        @if ($fromGoogle || $placeId)
+                            <div class="reviews-actions">
+                                @if ($fromGoogle && $googleReviews['url'])
+                                    <a href="{{ $googleReviews['url'] }}" class="btn-secondary" target="_blank" rel="noopener">Voir tous les avis sur Google</a>
+                                @endif
+                                @if ($placeId)
+                                    <a href="https://search.google.com/local/writereview?placeid={{ urlencode($placeId) }}" class="btn-secondary" target="_blank" rel="noopener">Laisser un avis</a>
+                                @endif
+                            </div>
+                        @endif
                     </div>
                 </section>
 

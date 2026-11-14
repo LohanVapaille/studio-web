@@ -1,6 +1,6 @@
 <x-app>
-    <x-slot:title>LovaWeb - Qui suis-je — Lohan Vapaille, développeur web freelance (77)</x-slot>
-        <x-slot:description>Découvrez Lohan Vapaille, développeur web freelance en Seine-et-Marne (77) : parcours,
+    <x-slot:title>Lovaweb - Qui suis-je — Lohan Vapaille, développeur web freelance (77)</x-slot>
+        <x-slot:description>Découvrez Lovaweb &amp; Lohan Vapaille, développeur web freelance en Seine-et-Marne (77) : parcours,
             compétences (Laravel, PHP, React) et méthode. Sites qualité agence au prix freelance, en Île-de-France et
             partout en France.</x-slot>
 

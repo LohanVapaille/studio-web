@@ -1,5 +1,5 @@
 /**
- * Transitions entre pages — Lova Web
+ * Transitions entre pages — Lovaweb
  *
  * Sortie : 5 bandes verticales descendent en cascade (celle du milieu en cyan),
  * le logo apparaît avec un loader, puis on navigue.

@@ -89,3 +89,57 @@
         color: v.$text-muted;
     }
 }
+
+// Avis Google
+.reviews-summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    strong {
+        color: v.$text;
+    }
+}
+
+.reviews-stars,
+.review-rating {
+    color: #f5b301;
+    letter-spacing: 2px;
+}
+
+.review-card {
+    .review-rating {
+        font-size: 0.95rem;
+        margin-bottom: 10px;
+
+        .is-off {
+            color: rgba(v.$text-muted, 0.3);
+        }
+    }
+
+    .review-avatar img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    a.review-name {
+        color: inherit;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
+.reviews-actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+}
