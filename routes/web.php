@@ -2,19 +2,21 @@
 
 use App\Models\Article;
 use App\Models\Project;
-use App\Services\GoogleReviews;
+use App\Models\Review;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ContactController;
 
-Route::get('/', function (GoogleReviews $google) {
+Route::get('/', function () {
     $featuredProjects = Project::where('is_featured', true)->latest()->take(3)->get();
-    $googleReviews = $google->get();
+    $reviews = Review::published()->get();
 
-    return view('welcome', compact('featuredProjects', 'googleReviews'));
+    return view('welcome', compact('featuredProjects', 'reviews'));
 })->name('home');
 
 Route::view('/qui-suis-je', 'about')->name('qui-suis-je');
+
+Route::view('/mentions-legales', 'legal')->name('mentions-legales');
 
 Route::get('/projets', function () {
     $projects = Project::with('technologies')->latest()->get();
@@ -37,7 +39,16 @@ Route::get('/sitemap.xml', function () {
         ['loc' => route('projets'), 'priority' => '0.8', 'changefreq' => 'weekly'],
         ['loc' => route('qui-suis-je'), 'priority' => '0.7', 'changefreq' => 'monthly'],
         ['loc' => route('blog.index'), 'priority' => '0.8', 'changefreq' => 'weekly'],
+        ['loc' => route('mentions-legales'), 'priority' => '0.2', 'changefreq' => 'yearly'],
     ];
+
+    // Date de dernière modification réelle quand on la connaît
+    $lastUpdate = fn (...$dates) => ($max = collect($dates)->filter()->max()) ? substr((string) $max, 0, 10) : null;
+    $projectsUpdated = Project::max('updated_at');
+    $pages[0]['lastmod'] = $lastUpdate($projectsUpdated, Review::max('updated_at'));
+    $pages[1]['lastmod'] = $lastUpdate($projectsUpdated);
+    $pages[3]['lastmod'] = $lastUpdate(Article::published()->max('updated_at'));
+    $pages = array_map('array_filter', $pages);
 
     foreach (Article::published()->latest('published_at')->get(['slug', 'updated_at']) as $article) {
         $pages[] = [

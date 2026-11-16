@@ -9,7 +9,7 @@
     @media (max-width: 880px) {
         grid-template-columns: 1fr 1fr;
 
-        .tedy-review {
+        .is-long {
             width: 100%;
             grid-column: span 2;
         }
@@ -18,7 +18,7 @@
     @media (max-width: 640px) {
         grid-template-columns: 1fr;
 
-        .tedy-review {
+        .is-long {
             grid-column: auto;
         }
     }
@@ -90,7 +90,7 @@
     }
 }
 
-// Avis Google
+// Note globale et étoiles
 .reviews-summary {
     display: inline-flex;
     align-items: center;
@@ -110,9 +110,22 @@
 }
 
 .review-card {
+    .review-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 12px;
+    }
+
+    .review-google {
+        width: 22px;
+        height: 22px;
+        flex-shrink: 0;
+    }
+
     .review-rating {
         font-size: 0.95rem;
-        margin-bottom: 10px;
 
         .is-off {
             color: rgba(v.$text-muted, 0.3);

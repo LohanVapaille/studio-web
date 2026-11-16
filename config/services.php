@@ -28,10 +28,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
-    'google_places' => [
-        'key' => env('GOOGLE_PLACES_API_KEY'),
-        'place_id' => env('GOOGLE_PLACE_ID'),
-        'cache_hours' => env('GOOGLE_REVIEWS_CACHE_HOURS', 24),
+    // Lien « Laisser un avis » de la fiche Google Business (bouton masqué si vide)
+    'google_business' => [
+        'review_url' => env('GOOGLE_REVIEW_URL'),
     ],
 
     'slack' => [

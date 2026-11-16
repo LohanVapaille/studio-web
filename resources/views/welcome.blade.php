@@ -227,70 +227,63 @@
                     </div>
                 </section>
 
+                @if ($reviews->isNotEmpty())
                 <section id="avis" class="section-alt">
                     <div class="container">
                         @php
-                            // Avis saisis à la main : utilisés si l'API Google n'est pas configurée ou indisponible
-                            $manualReviews = [
-                                ['name' => 'Oumar S', 'role' => 'HuntersTeam', 'quote' => "Le site internet convient parfaitement à ce que nous avions besoin. Nous pouvons gérer tout le contenu en autonomie grâce au back-office."],
-                                ['name' => 'Sandrine V', 'role' => 'Bulle de Bonheur', 'quote' => "Prestation rapide, site internet livré dans les temps. Lohan est toujours bienveillant et conseille au mieux pour que le projet soit réussi. Je recommande vivement !"],
-                                ['name' => 'Tedy F', 'class' => 'tedy-review', 'role' => 'Coach CRPE Tedy Florette', 'quote' => "Je recommande vivement les services de ce webdesigner. Dès le début du projet, il a fait preuve d'une grande réactivité et d'une excellente compréhension de mes besoins. Le résultat est parfaitement conforme à mes attentes, tant sur le plan esthétique que fonctionnel. Au-delà de ses compétences techniques, j'ai particulièrement apprécié sa disponibilité, son écoute et sa capacité à être force de proposition..."],
-                            ];
-                            $fromGoogle = ! empty($googleReviews['reviews']);
-                            $reviews = $fromGoogle ? $googleReviews['reviews'] : $manualReviews;
-                            $placeId = config('services.google_places.place_id');
+                            $googleReviewCount = $reviews->filter->isFromGoogle()->count();
+                            $average = round($reviews->avg('rating'), 1);
+                            $googleReviewUrl = config('services.google_business.review_url');
                         @endphp
                         <div class="section-head">
                             <div class="eyebrow"><span class="eyebrow-dot"></span> Avis clients</div>
                             <h2>Ce qu'en disent mes clients</h2>
-                            @if ($fromGoogle && $googleReviews['total'] > 0)
-                                <p class="reviews-summary">
-                                    <span class="reviews-stars" aria-hidden="true">★★★★★</span>
-                                    <strong>{{ number_format($googleReviews['rating'], 1, ',', '') }}/5</strong>
-                                    sur {{ $googleReviews['total'] }} avis Google
-                                </p>
-                            @else
-                                <p>Trois projets, trois retours d'expérience.</p>
-                            @endif
+                            <p class="reviews-summary">
+                                <span class="reviews-stars" aria-hidden="true">★★★★★</span>
+                                <strong>{{ number_format($average, 1, ',', '') }}/5</strong>
+                                sur {{ $reviews->count() }} avis{{ $googleReviewCount === $reviews->count() ? ' Google' : '' }}
+                            </p>
                         </div>
                         <div class="reviews-grid">
                             @foreach ($reviews as $review)
-                                <div class="glass-card review-card {{ $review['class'] ?? '' }}">
-                                    @if ($fromGoogle)
-                                        <div class="review-rating" aria-label="{{ $review['rating'] }} étoiles sur 5">
-                                            {{ str_repeat('★', $review['rating']) }}<span class="is-off">{{ str_repeat('★', 5 - $review['rating']) }}</span>
+                                <div class="glass-card review-card {{ mb_strlen($review->quote) > 320 ? 'is-long' : '' }}">
+                                    <div class="review-top">
+                                        <div class="review-rating" aria-label="{{ $review->rating }} étoiles sur 5">
+                                            {{ str_repeat('★', $review->rating) }}<span class="is-off">{{ str_repeat('★', 5 - $review->rating) }}</span>
                                         </div>
-                                    @endif
-                                    <p class="review-quote">« {{ $review['quote'] }} »</p>
+                                        @if ($review->isFromGoogle())
+                                            <svg class="review-google" viewBox="0 0 48 48" role="img" aria-label="Avis Google">
+                                                <path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.6-.4-3.9z"/>
+                                                <path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/>
+                                                <path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/>
+                                                <path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.6-.4-3.9z"/>
+                                            </svg>
+                                        @endif
+                                    </div>
+                                    <p class="review-quote">« {{ $review->quote }} »</p>
                                     <button type="button" class="review-toggle" aria-expanded="false" hidden>Lire
                                         plus</button>
                                     <div class="review-author">
-                                        <div class="review-avatar"><img src="{{ $review['photo'] ?? asset('img/logo_lova.jpg') }}"
-                                                alt="{{ $review['name'] }}" loading="lazy" referrerpolicy="no-referrer"></div>
+                                        <div class="review-avatar"><img src="{{ $review->photo_url }}"
+                                                alt="{{ $review->name }}" loading="lazy"></div>
                                         <div>
-                                            @if (! empty($review['author_url']))
-                                                <a class="review-name" href="{{ $review['author_url'] }}" target="_blank" rel="noopener nofollow">{{ $review['name'] }}</a>
-                                            @else
-                                                <div class="review-name">{{ $review['name'] }}</div>
-                                            @endif
-                                            <div class="review-role">{{ $fromGoogle ? 'Avis Google' . ($review['date'] ? ' · ' . $review['date'] : '') : $review['role'] }}</div>
+                                            <div class="review-name">{{ $review->name }}</div>
+                                            <div class="review-role">
+                                                {{ $review->role ?: ($review->isFromGoogle() ? 'Avis Google' : '') }}@if ($review->reviewed_at) · {{ $review->reviewed_at->locale('fr')->isoFormat('MMMM YYYY') }}@endif
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             @endforeach
                         </div>
-                        @if ($fromGoogle || $placeId)
+                        @if ($googleReviewUrl)
                             <div class="reviews-actions">
-                                @if ($fromGoogle && $googleReviews['url'])
-                                    <a href="{{ $googleReviews['url'] }}" class="btn-secondary" target="_blank" rel="noopener">Voir tous les avis sur Google</a>
-                                @endif
-                                @if ($placeId)
-                                    <a href="https://search.google.com/local/writereview?placeid={{ urlencode($placeId) }}" class="btn-secondary" target="_blank" rel="noopener">Laisser un avis</a>
-                                @endif
+                                <a href="{{ $googleReviewUrl }}" class="btn-secondary" target="_blank" rel="noopener">Laisser un avis sur Google</a>
                             </div>
                         @endif
                     </div>
                 </section>
+                @endif
 
                 <section id="faq">
                     <div class="container">

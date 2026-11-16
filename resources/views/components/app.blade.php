@@ -9,6 +9,15 @@
         $seoDescription = $description ?? "Lovaweb — Lohan Vapaille, développeur web freelance basé en Seine-et-Marne (77). Sites vitrines, e-commerce et plateformes sur mesure, qualité agence au prix freelance. Devis gratuit, Île-de-France, France et international.";
         $seoUrl = url()->current();
         $seoImage = isset($image) ? trim((string) $image) : asset('img/allsites.png');
+        $legal = config('legal.company');
+        $postalAddress = [
+            '@type' => 'PostalAddress',
+            'streetAddress' => $legal['street'],
+            'postalCode' => $legal['postal_code'],
+            'addressLocality' => $legal['city'],
+            'addressRegion' => 'Île-de-France',
+            'addressCountry' => 'FR',
+        ];
     @endphp
     <title>{{ $seoTitle }}</title>
     <meta name="description" content="{{ $seoDescription }}">
@@ -19,7 +28,7 @@
 
     <!-- Référencement local -->
     <meta name="geo.region" content="FR-77">
-    <meta name="geo.placename" content="Seine-et-Marne, Île-de-France">
+    <meta name="geo.placename" content="{{ $legal['city'] }}, Seine-et-Marne, Île-de-France">
 
     <!-- Open Graph / réseaux sociaux -->
     <meta property="og:type" content="website">
@@ -48,27 +57,25 @@
                 'image' => asset('img/logo_lova.jpg'),
                 'worksFor' => ['@id' => url('/') . '#lovaweb'],
                 'knowsAbout' => ['Développement web', 'Laravel', 'PHP', 'React', 'JavaScript', 'UI/UX Design', 'SEO', 'E-commerce'],
-                'address' => [
-                    '@type' => 'PostalAddress',
-                    'addressRegion' => 'Seine-et-Marne',
-                    'addressCountry' => 'FR',
-                ],
+                'address' => $postalAddress,
             ],
             [
                 '@type' => 'ProfessionalService',
                 '@id' => url('/') . '#lovaweb',
                 'name' => 'Lovaweb — Lohan Vapaille, développeur web freelance',
+                'legalName' => $legal['name'] . ' (EI)',
+                'alternateName' => 'Lovaweb',
+                'identifier' => [
+                    ['@type' => 'PropertyValue', 'propertyID' => 'SIREN', 'value' => str_replace(' ', '', $legal['siren'])],
+                ],
+                'email' => $legal['email'],
                 'description' => "Création de sites internet sur mesure (vitrines, e-commerce, plateformes) par Lohan Vapaille, développeur web freelance en Seine-et-Marne (77). Qualité agence, prix freelance, devis gratuit.",
                 'url' => url('/'),
                 'logo' => asset('img/logo_lova.jpg'),
                 'image' => $seoImage,
                 'founder' => ['@id' => url('/') . '#lohan-vapaille'],
                 'priceRange' => '€€',
-                'address' => [
-                    '@type' => 'PostalAddress',
-                    'addressRegion' => 'Seine-et-Marne (77), Île-de-France',
-                    'addressCountry' => 'FR',
-                ],
+                'address' => $postalAddress,
                 'areaServed' => [
                     ['@type' => 'AdministrativeArea', 'name' => 'Seine-et-Marne'],
                     ['@type' => 'AdministrativeArea', 'name' => 'Île-de-France'],
@@ -184,7 +191,9 @@
             </div>
         </div>
         <div class="container footer-bottom">
-            © {{ date('Y') }} Lovaweb — Lohan Vapaille, développeur web freelance (77). Tous droits réservés.
+            © {{ date('Y') }} Lovaweb — Lohan Vapaille EI, développeur web freelance (77) · SIREN {{ $legal['siren'] }}.
+            Tous droits réservés. · <a href="{{ route('mentions-legales') }}">Mentions légales</a>
+            · <a href="{{ route('mentions-legales') }}#confidentialite">Confidentialité</a>
         </div>
     </footer>
 
