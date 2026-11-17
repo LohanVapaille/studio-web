@@ -6,9 +6,10 @@ use App\Models\Review;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ProjectController;
 
 Route::get('/', function () {
-    $featuredProjects = Project::where('is_featured', true)->latest()->take(3)->get();
+    $featuredProjects = Project::onLovaweb()->where('is_featured', true)->ordered()->take(3)->get();
     $reviews = Review::published()->get();
 
     return view('welcome', compact('featuredProjects', 'reviews'));
@@ -18,11 +19,8 @@ Route::view('/qui-suis-je', 'about')->name('qui-suis-je');
 
 Route::view('/mentions-legales', 'legal')->name('mentions-legales');
 
-Route::get('/projets', function () {
-    $projects = Project::with('technologies')->latest()->get();
-
-    return view('index', compact('projects'));
-})->name('projets');
+Route::get('/projets', [ProjectController::class, 'index'])->name('projets');
+Route::get('/projets/{project:slug}', [ProjectController::class, 'show'])->name('projets.show');
 
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/blog/{article}', [BlogController::class, 'show'])->name('blog.show');
@@ -44,11 +42,20 @@ Route::get('/sitemap.xml', function () {
 
     // Date de dernière modification réelle quand on la connaît
     $lastUpdate = fn (...$dates) => ($max = collect($dates)->filter()->max()) ? substr((string) $max, 0, 10) : null;
-    $projectsUpdated = Project::max('updated_at');
+    $projectsUpdated = Project::onLovaweb()->max('updated_at');
     $pages[0]['lastmod'] = $lastUpdate($projectsUpdated, Review::max('updated_at'));
     $pages[1]['lastmod'] = $lastUpdate($projectsUpdated);
     $pages[3]['lastmod'] = $lastUpdate(Article::published()->max('updated_at'));
     $pages = array_map('array_filter', $pages);
+
+    foreach (Project::onLovaweb()->ordered()->get(['slug', 'updated_at']) as $project) {
+        $pages[] = [
+            'loc' => route('projets.show', $project),
+            'priority' => '0.6',
+            'changefreq' => 'monthly',
+            'lastmod' => $project->updated_at?->toDateString(),
+        ];
+    }
 
     foreach (Article::published()->latest('published_at')->get(['slug', 'updated_at']) as $article) {
         $pages[] = [

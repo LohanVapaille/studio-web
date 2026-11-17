@@ -58,6 +58,17 @@ return [
             'report' => false,
         ],
 
+        // Racine de public/ : les images des projets sont stockées en chemins du type
+        // « img/WEB/x.jpg » ou « uploads/projets/x.jpg », affichés avec asset($path).
+        'site' => [
+            'driver' => 'local',
+            'root' => public_path(),
+            'url' => rtrim(env('APP_URL', 'http://localhost'), '/'),
+            'visibility' => 'public',
+            'throw' => false,
+            'report' => false,
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

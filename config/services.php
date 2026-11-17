@@ -28,6 +28,11 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    // Portfolio lohanvapaille.fr : sert les images qui ne sont pas copiées sur Lovaweb (projets graphiques)
+    'portfolio' => [
+        'url' => env('PORTFOLIO_URL', 'https://lohanvapaille.fr'),
+    ],
+
     // Lien « Laisser un avis » de la fiche Google Business (bouton masqué si vide)
     'google_business' => [
         'review_url' => env('GOOGLE_REVIEW_URL'),

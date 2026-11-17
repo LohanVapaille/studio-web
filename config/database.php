@@ -58,10 +58,24 @@ return [
             'prefix' => '',
             'prefix_indexes' => true,
             'strict' => true,
-            'engine' => null,
+            'engine' => 'InnoDB', // MyISAM (défaut de certains serveurs) ne gère pas les transactions
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 (PHP_VERSION_ID >= 80500 ? Mysql::ATTR_SSL_CA : PDO::MYSQL_ATTR_SSL_CA) => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
+        ],
+
+        // Ancienne base du portfolio (lohanvapaille.fr), lue uniquement par « php artisan portfolio:import »
+        'portfolio' => [
+            'driver' => 'mysql',
+            'host' => env('PORTFOLIO_DB_HOST', env('DB_HOST', '127.0.0.1')),
+            'port' => env('PORTFOLIO_DB_PORT', env('DB_PORT', '3306')),
+            'database' => env('PORTFOLIO_DB_DATABASE', 'vapaille_portfolio'),
+            'username' => env('PORTFOLIO_DB_USERNAME', env('DB_USERNAME', 'root')),
+            'password' => env('PORTFOLIO_DB_PASSWORD', env('DB_PASSWORD', '')),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => false,
         ],
 
         'mariadb' => [

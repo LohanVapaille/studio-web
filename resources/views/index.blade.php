@@ -20,34 +20,7 @@
                 <div class="container">
                     <div class="projects-grid">
                         @foreach ($projects as $project)
-                            @if ($project->url)
-                                <a href="{{ $project->url }}" target="_blank" rel="noopener" class="glass-card project-card">
-                            @else
-                                    <div class="glass-card project-card">
-                                @endif
-                                    <div class="project-thumb" role="img"
-                                        aria-label="Aperçu du projet {{ $project->title }}" @if ($project->main_image)
-                                            style="background-image: url('{{ asset($project->main_image) }}'); background-size: cover; background-position: center;"
-                                        @endif>
-                                    </div>
-                                    <div class="project-body">
-                                        <span class="project-tag">{{ $project->category }}</span>
-                                        <h3>{{ $project->title }}</h3>
-                                        <p>{{ $project->short_description }}</p>
-
-                                        @if ($project->technologies->isNotEmpty())
-                                            <p style="margin-top: 10px; font-size: 0.78rem; color: var(--text-muted);">
-                                                {{ $project->technologies->pluck('name')->join(' · ') }}
-                                            </p>
-                                        @endif
-
-
-                                    </div>
-                                    @if ($project->url)
-                                        </a>
-                                    @else
-                                </div>
-                            @endif
+                            <x-project-card :project="$project" with-tech />
                         @endforeach
                 </div>
                 </div>

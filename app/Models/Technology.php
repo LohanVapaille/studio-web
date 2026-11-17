@@ -7,7 +7,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Technology extends Model
 {
-    protected $fillable = ['name'];
+    public const CATEGORIES = [
+        'dev' => 'Développement',
+        'design' => 'Design / graphisme',
+    ];
+
+    protected $fillable = ['name', 'category'];
+
+    protected $attributes = ['category' => 'dev'];
 
     public function projects(): BelongsToMany
     {

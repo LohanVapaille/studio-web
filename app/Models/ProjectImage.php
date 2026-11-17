@@ -7,10 +7,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ProjectImage extends Model
 {
-    protected $fillable = ['project_id', 'path'];
+    protected $fillable = ['project_id', 'path', 'caption', 'sort_order'];
+
+    protected $casts = ['sort_order' => 'integer'];
 
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
+    }
+
+    public function getUrlAttribute(): ?string
+    {
+        return Project::assetUrl($this->path);
     }
 }
