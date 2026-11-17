@@ -12,6 +12,9 @@
         'src' => $image->url,
         'alt' => $image->caption ?: 'Capture du projet ' . $project->title,
     ])->values();
+    // Visionneuse : le mockup en premier, puis la galerie
+    $viewer = collect($heroImage ? [['src' => $heroImage, 'alt' => 'Aperçu du projet ' . $project->title]] : [])->concat($gallery)->values();
+    $offset = $heroImage ? 1 : 0;
 @endphp
 
 <x-app>
@@ -53,7 +56,7 @@
         </script>
     </x-slot>
 
-    <article class="project-page" x-data="{ gallery: @js($gallery), current: null }"
+    <article class="project-page" x-data="{ gallery: @js($viewer), current: null }"
         @keydown.escape.window="current = null"
         @keydown.arrow-right.window="if (current !== null) current = (current + 1) % gallery.length"
         @keydown.arrow-left.window="if (current !== null) current = (current - 1 + gallery.length) % gallery.length">
@@ -67,37 +70,35 @@
                     <a href="{{ route('projets') }}">Projets</a>
                 </nav>
 
-                <div class="project-hero-grid">
-                    <div>
-                        @if ($project->category)
-                            <div class="eyebrow"><span class="eyebrow-dot"></span> {{ $project->category }}</div>
-                        @endif
-                        <h1>{{ $project->title }}</h1>
-                        @if ($project->short_description)
-                            <p class="project-lead">{{ $project->short_description }}</p>
-                        @endif
-
-                        <div class="project-actions">
-                            @if ($project->url)
-                                <a href="{{ $project->url }}" class="btn-rdv" target="_blank" rel="noopener">
-                                    Voir le site en ligne <span aria-hidden="true">↗</span>
-                                </a>
-                            @endif
-                            <a href="#" class="btn-secondary" @click.prevent="contactOpen = true">Un projet similaire ?</a>
-                        </div>
-                    </div>
-
-                    @if ($facts)
-                        <dl class="glass-card project-facts">
-                            @foreach ($facts as $label => $value)
-                                <div>
-                                    <dt>{{ $label }}</dt>
-                                    <dd>{{ $value }}</dd>
-                                </div>
-                            @endforeach
-                        </dl>
+                <div class="project-hero-text">
+                    @if ($project->category)
+                        <div class="eyebrow"><span class="eyebrow-dot"></span> {{ $project->category }}</div>
                     @endif
+                    <h1>{{ $project->title }}</h1>
+                    @if ($project->short_description)
+                        <p class="project-lead">{{ $project->short_description }}</p>
+                    @endif
+
+                    <div class="project-actions">
+                        @if ($project->url)
+                            <a href="{{ $project->url }}" class="btn-rdv" target="_blank" rel="noopener">
+                                Voir le site en ligne <span aria-hidden="true">↗</span>
+                            </a>
+                        @endif
+                        <a href="#" class="btn-secondary" @click.prevent="contactOpen = true">Un projet similaire ?</a>
+                    </div>
                 </div>
+
+                @if ($facts)
+                    <dl class="project-facts">
+                        @foreach ($facts as $label => $value)
+                            <div>
+                                <dt>{{ $label }}</dt>
+                                <dd>{{ $value }}</dd>
+                            </div>
+                        @endforeach
+                    </dl>
+                @endif
             </div>
         </header>
 
@@ -105,7 +106,10 @@
         @if ($heroImage)
             <div class="container">
                 <figure class="project-mockup">
-                    <img src="{{ $heroImage }}" alt="Aperçu du projet {{ $project->title }}" fetchpriority="high">
+                    <button type="button" @click="current = 0" aria-label="Agrandir l'aperçu du projet">
+                        <img src="{{ $heroImage }}" alt="Aperçu du projet {{ $project->title }}" fetchpriority="high">
+                    </button>
+                    <figcaption>Cliquez pour agrandir</figcaption>
                 </figure>
             </div>
         @endif
@@ -166,7 +170,7 @@
                     </div>
                     <div class="project-gallery">
                         @foreach ($gallery as $i => $image)
-                            <button type="button" class="project-shot" @click="current = {{ $i }}"
+                            <button type="button" class="project-shot" @click="current = {{ $i + $offset }}"
                                 aria-label="Agrandir : {{ $image['alt'] }}">
                                 <img src="{{ $image['src'] }}" alt="{{ $image['alt'] }}" loading="lazy">
                             </button>
