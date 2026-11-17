@@ -1,6 +1,6 @@
 @use "../variables" as v;
 
-header {
+.site-header {
     position: sticky;
     top: 0;
     z-index: 100;
@@ -130,13 +130,13 @@ header {
 }
 
 @media (max-width: 1180px) {
-    header nav {
+    .site-header nav {
         gap: 22px;
     }
 }
 
 @media (max-width: 1024px) {
-    header {
+    .site-header {
         .header-inner {
             padding: 14px 20px;
         }

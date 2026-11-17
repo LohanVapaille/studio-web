@@ -132,7 +132,7 @@
 
     <x-page-transition />
 
-    <header x-data="{ menuOpen: false, scrolled: false }" @scroll.window="scrolled = window.scrollY > 8"
+    <header class="site-header" x-data="{ menuOpen: false, scrolled: false }" @scroll.window="scrolled = window.scrollY > 8"
         :class="{ 'is-scrolled': scrolled, 'menu-open': menuOpen }">
         <div class="header-inner">
             <div class="logo">
