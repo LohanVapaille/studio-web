@@ -30,13 +30,17 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->profile()
-            ->navigationGroups(['Contact', 'Portfolio', 'Contenu'])
+            ->navigationGroups(['Contact', 'Portfolio', 'Contenu', 'Comptabilité'])
             // Icônes Boxicons des caractéristiques de projet (aperçu dans le back-office)
             ->renderHook(PanelsRenderHook::HEAD_END, fn () => '<link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">')
+            // Thème clair glassmorphism (public/css/admin-glass.css)
+            ->renderHook(PanelsRenderHook::HEAD_END, fn () => '<link rel="stylesheet" href="' . asset('css/admin-glass.css') . '?v=' . @filemtime(public_path('css/admin-glass.css')) . '">')
+            ->darkMode(false)
+            ->sidebarWidth('16rem')
             ->brandName('Lovaweb')
             ->favicon(asset('img/logo_lova.jpg'))
             ->colors([
-                'primary' => Color::Indigo,
+                'primary' => self::accessibleCyan(),
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
@@ -62,5 +66,28 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ]);
+    }
+
+    /**
+     * Cyan décalé d'un cran vers le foncé : les boutons (primary-600) passent en cyan-700,
+     * ce qui donne un contraste AA (≥ 4.5:1) pour le texte blanc et pour les liens sur fond clair.
+     */
+    private static function accessibleCyan(): array
+    {
+        $c = Color::Cyan;
+
+        return [
+            50 => $c[50],
+            100 => $c[100],
+            200 => $c[200],
+            300 => $c[300],
+            400 => $c[500],
+            500 => $c[600],
+            600 => $c[700],
+            700 => $c[800],
+            800 => $c[900],
+            900 => $c[950],
+            950 => $c[950],
+        ];
     }
 }

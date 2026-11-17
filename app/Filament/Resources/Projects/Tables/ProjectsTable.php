@@ -30,13 +30,15 @@ class ProjectsTable
                 ImageColumn::make('main_image')
                     ->label('')
                     ->state(fn (Project $record) => $record->main_image_url)
-                    ->imageHeight(48),
+                    ->imageHeight(40)
+                    ->extraImgAttributes(['class' => 'rounded-lg object-cover', 'alt' => '']),
 
                 TextColumn::make('title')
                     ->label('Projet')
                     ->searchable()
                     ->sortable()
                     ->wrap()
+                    ->extraCellAttributes(['style' => 'min-width: 14rem'])
                     ->description(fn (Project $record) => collect([$record->date_label, $record->context])->filter()->join(' · ')),
 
                 TextColumn::make('type')
@@ -47,19 +49,25 @@ class ProjectsTable
 
                 ToggleColumn::make('show_on_lovaweb')
                     ->label('Lovaweb')
+                    ->alignCenter()
                     ->disabled(fn (Project $record) => $record->type !== 'web')
                     ->tooltip(fn (Project $record) => $record->type !== 'web' ? 'Lovaweb n\'affiche que les projets web' : null),
 
                 ToggleColumn::make('is_featured')
-                    ->label('Accueil Lovaweb')
+                    ->label('Accueil')
+                    ->tooltip("Mis en avant sur l'accueil Lovaweb")
+                    ->alignCenter()
                     ->disabled(fn (Project $record) => $record->type !== 'web' || ! $record->show_on_lovaweb)
                     ->toggleable(),
 
                 ToggleColumn::make('show_on_portfolio')
-                    ->label('Portfolio'),
+                    ->label('Portfolio')
+                    ->alignCenter(),
 
                 ToggleColumn::make('is_featured_portfolio')
-                    ->label('Avant portfolio')
+                    ->label('À la une')
+                    ->tooltip('Mis en avant sur le portfolio')
+                    ->alignCenter()
                     ->disabled(fn (Project $record) => ! $record->show_on_portfolio)
                     ->toggleable(),
 
@@ -67,13 +75,15 @@ class ProjectsTable
                     ->label('Caract.')
                     ->badge()
                     ->color('gray')
-                    ->toggleable(),
+                    ->alignCenter()
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('images_count')
                     ->label('Images')
                     ->badge()
                     ->color('gray')
-                    ->toggleable(),
+                    ->alignCenter()
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('technologies.name')
                     ->label('Technologies')
@@ -98,13 +108,17 @@ class ProjectsTable
             ])
             ->recordActions([
                 Action::make('page')
-                    ->label('Page')
+                    ->label('Voir la page')
+                    ->tooltip('Voir la page')
+                    ->iconButton()
                     ->icon('heroicon-o-eye')
                     ->color('gray')
                     ->url(fn (Project $record) => route('projets.show', $record))
                     ->openUrlInNewTab()
                     ->visible(fn (Project $record) => $record->type === 'web' && $record->show_on_lovaweb),
-                EditAction::make(),
+                EditAction::make()
+                    ->tooltip('Modifier')
+                    ->iconButton(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

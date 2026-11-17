@@ -1,0 +1,205 @@
+/*
+ * Back-office Lovaweb — thème clair "glassmorphism"
+ * Chargé après le CSS de Filament (render hook HEAD_END). Panel en mode clair uniquement.
+ *
+ * Accessibilité : les surfaces restent blanches à ~70 % d'opacité, le texte garde les gris
+ * foncés de Filament (contraste AA) et la couleur primaire est décalée d'un cran plus foncé
+ * (voir AdminPanelProvider) pour que le texte blanc sur les boutons passe AA.
+ *
+ * Important : jamais de backdrop-filter directement sur .fi-topbar / .fi-sidebar — ça en fait
+ * le bloc conteneur des menus déroulants (non téléportés) et les décale hors écran.
+ * Le flou est porté par un pseudo-élément ::before.
+ */
+
+:root {
+    --glass-bg: rgba(255, 255, 255, 0.68);
+    --glass-bg-hover: rgba(255, 255, 255, 0.82);
+    --glass-bg-solid: rgba(255, 255, 255, 0.94);
+    --glass-border: rgba(255, 255, 255, 0.9);
+    --glass-edge: rgba(14, 116, 144, 0.12); /* liseré extérieur, lisible sur fond clair */
+    --glass-shadow: 0 8px 32px -12px rgba(8, 51, 68, 0.22);
+    --glass-blur: blur(20px) saturate(170%);
+    --glass-radius: 1.25rem;
+    --accent-ink: #155e75; /* cyan-800 : texte d'accent, contraste 7:1 sur blanc */
+}
+
+/* ---------- Fond ---------- */
+body.fi-body {
+    background-color: #eef7fa;
+    background-image:
+        radial-gradient(50rem 32rem at 90% -5%, rgba(103, 232, 249, 0.45), transparent 60%),
+        radial-gradient(45rem 35rem at -5% 15%, rgba(153, 246, 228, 0.5), transparent 60%),
+        radial-gradient(40rem 30rem at 55% 105%, rgba(186, 230, 253, 0.6), transparent 60%),
+        linear-gradient(160deg, #f4fbfd 0%, #e6f4f8 50%, #eef3fb 100%);
+    background-attachment: fixed;
+}
+
+/* ---------- Cartes vitrées ---------- */
+html .fi-section:not(.fi-section-not-contained):not(.fi-aside),
+html .fi-section:not(.fi-section-not-contained).fi-aside > .fi-section-content-ctn,
+html .fi-ta-ctn,
+html .fi-tabs:not(.fi-contained),
+html .fi-wi-stats-overview-stat,
+html .fi-simple-main {
+    background-color: var(--glass-bg);
+    -webkit-backdrop-filter: var(--glass-blur);
+    backdrop-filter: var(--glass-blur);
+    --tw-ring-color: var(--glass-edge);
+    box-shadow: inset 0 1px 0 var(--glass-border), var(--glass-shadow), 0 0 0 1px var(--glass-edge);
+}
+
+html .fi-section:not(.fi-section-not-contained):not(.fi-aside),
+html .fi-section:not(.fi-section-not-contained).fi-aside > .fi-section-content-ctn,
+html .fi-ta-ctn,
+html .fi-wi-stats-overview-stat,
+html .fi-simple-main {
+    border-radius: var(--glass-radius);
+}
+
+/* Sections imbriquées / dans une modale : pas de double flou */
+html .fi-section .fi-section:not(.fi-section-not-contained):not(.fi-aside),
+html .fi-modal-window .fi-section:not(.fi-section-not-contained):not(.fi-aside) {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 0 1px var(--glass-edge);
+}
+
+/* ---------- Sidebar & topbar (flou via ::before) ---------- */
+html .fi-sidebar,
+html .fi-topbar,
+html .fi-body-has-topbar .fi-sidebar-header {
+    background-color: transparent;
+}
+
+html .fi-sidebar,
+html .fi-topbar {
+    isolation: isolate;
+}
+
+html .fi-topbar {
+    position: relative;
+    box-shadow: 0 1px 0 var(--glass-edge);
+}
+
+html .fi-sidebar::before,
+html .fi-topbar::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-color: rgba(255, 255, 255, 0.55);
+    -webkit-backdrop-filter: var(--glass-blur);
+    backdrop-filter: var(--glass-blur);
+    pointer-events: none;
+}
+
+html .fi-sidebar {
+    box-shadow: 1px 0 0 var(--glass-edge);
+}
+
+html .fi-body-has-topbar .fi-sidebar-header {
+    box-shadow: 0 1px 0 var(--glass-edge);
+}
+
+html .fi-sidebar-item-btn {
+    border-radius: 0.75rem;
+}
+
+html .fi-sidebar-item.fi-active > .fi-sidebar-item-btn {
+    background-color: #fff;
+    box-shadow: 0 0 0 1px rgba(14, 116, 144, 0.18), 0 6px 18px -10px rgba(8, 51, 68, 0.45);
+}
+
+html .fi-sidebar-item.fi-active > .fi-sidebar-item-btn .fi-sidebar-item-label,
+html .fi-sidebar-item.fi-active > .fi-sidebar-item-btn .fi-icon {
+    color: var(--accent-ink);
+}
+
+html .fi-sidebar-group-label {
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    color: #4b5563; /* gray-600 : 7:1 sur blanc */
+}
+
+/* ---------- Stats : léger "lift" au survol ---------- */
+html .fi-wi-stats-overview-stat {
+    transition: transform 0.25s ease, background-color 0.25s ease;
+}
+
+html .fi-wi-stats-overview-stat:hover {
+    transform: translateY(-4px);
+    background-color: var(--glass-bg-hover);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html .fi-wi-stats-overview-stat,
+    html .fi-wi-stats-overview-stat:hover {
+        transition: none;
+        transform: none;
+    }
+}
+
+/* ---------- Tableaux ---------- */
+html .fi-ta-header-cell {
+    background-color: rgba(236, 248, 251, 0.75);
+}
+
+html .fi-ta-row:hover {
+    background-color: rgba(255, 255, 255, 0.55);
+}
+
+/* ---------- Champs ---------- */
+html .fi-input-wrp {
+    background-color: rgba(255, 255, 255, 0.85);
+    border-radius: 0.75rem;
+}
+
+/* ---------- Modales & menus déroulants : quasi opaques ---------- */
+html .fi-modal > .fi-modal-window-ctn > .fi-modal-window,
+html .fi-modal.fi-modal-has-sticky-header > .fi-modal-window-ctn > .fi-modal-window > .fi-modal-header,
+html .fi-modal.fi-modal-has-sticky-footer > .fi-modal-window-ctn > .fi-modal-window > .fi-modal-footer,
+html .fi-dropdown-panel {
+    background-color: var(--glass-bg-solid);
+    -webkit-backdrop-filter: var(--glass-blur);
+    backdrop-filter: var(--glass-blur);
+    --tw-ring-color: var(--glass-edge);
+}
+
+html .fi-modal > .fi-modal-window-ctn > .fi-modal-window {
+    border-radius: var(--glass-radius);
+}
+
+html .fi-dropdown-panel {
+    border-radius: 0.9rem;
+}
+
+html .fi-modal > .fi-modal-close-overlay {
+    background-color: rgba(8, 51, 68, 0.35);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+}
+
+/* ---------- Boutons ---------- */
+html .fi-btn {
+    border-radius: 0.75rem;
+}
+
+/* ---------- Focus clavier bien visible ---------- */
+html :is(a, button, [role="button"], input, select, textarea):focus-visible {
+    outline: 2px solid #0e7490;
+    outline-offset: 2px;
+}
+
+/* Navigateurs sans backdrop-filter : surfaces opaques */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    html .fi-sidebar::before,
+    html .fi-topbar::before,
+    html .fi-section:not(.fi-section-not-contained):not(.fi-aside),
+    html .fi-ta-ctn,
+    html .fi-wi-stats-overview-stat,
+    html .fi-simple-main {
+        background-color: rgba(255, 255, 255, 0.95);
+    }
+}
