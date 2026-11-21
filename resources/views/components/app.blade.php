@@ -8,7 +8,8 @@
         $seoTitle = $title ?? 'Lovaweb - Lohan Vapaille — Développeur web freelance en Seine-et-Marne (77) & Île-de-France';
         $seoDescription = $description ?? "Lovaweb — Lohan Vapaille, développeur web freelance basé en Seine-et-Marne (77). Sites vitrines, e-commerce et plateformes sur mesure, qualité agence au prix freelance. Devis gratuit, Île-de-France, France et international.";
         $seoUrl = url()->current();
-        $seoImage = isset($image) ? trim((string) $image) : asset('img/allsites.png');
+        $hasCustomImage = isset($image) && trim((string) $image) !== '';
+        $seoImage = $hasCustomImage ? trim((string) $image) : asset('img/og-lovaweb.png');
         $legal = config('legal.company');
         $postalAddress = [
             '@type' => 'PostalAddress',
@@ -38,6 +39,11 @@
     <meta property="og:description" content="{{ $seoDescription }}">
     <meta property="og:url" content="{{ $seoUrl }}">
     <meta property="og:image" content="{{ $seoImage }}">
+    @unless ($hasCustomImage)
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
+        <meta property="og:image:alt" content="Lovaweb — Pas juste un site. Une plateforme qui travaille pour vous.">
+    @endunless
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ $seoTitle }}">
     <meta name="twitter:description" content="{{ $seoDescription }}">
