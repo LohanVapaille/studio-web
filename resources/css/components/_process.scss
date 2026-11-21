@@ -1,43 +1,147 @@
 @use "../variables" as v;
 
-.process-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 22px;
+// ---------- Méthode : frise verticale, étapes en zigzag ----------
 
-    @media (max-width: 1024px) {
-        grid-template-columns: 1fr 1fr;
+.process-timeline {
+    --dot: 64px;
+    position: relative;
+    list-style: none;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0;
+    display: grid;
+    gap: clamp(28px, 4vw, 44px);
+
+    // ligne centrale
+    &::before {
+        content: "";
+        position: absolute;
+        top: calc(var(--dot) / 2);
+        bottom: calc(var(--dot) / 2);
+        left: 50%;
+        width: 2px;
+        transform: translateX(-50%);
+        background: linear-gradient(180deg, v.$indigo-light, v.$cyan);
+        opacity: 0.35;
+        border-radius: 2px;
     }
 
-    @media (max-width: 540px) {
-        grid-template-columns: 1fr;
+    @media (max-width: 760px) {
+        --dot: 52px;
+
+        &::before {
+            left: calc(var(--dot) / 2);
+        }
     }
 }
 
 .process-step {
-    padding: 30px 24px;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr var(--dot) 1fr;
+    column-gap: clamp(24px, 4vw, 48px);
+    align-items: center;
+
+    .process-card {
+        grid-column: 1;
+        grid-row: 1;
+    }
 
     .process-number {
-        display: inline-block;
-        font-family: "Space Grotesk", sans-serif;
-        font-size: 2rem;
-        font-weight: 700;
-        line-height: 1;
-        margin-bottom: 18px;
-        background: linear-gradient(135deg, v.$indigo, v.$cyan);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    // une étape sur deux à droite
+    &:nth-child(even) .process-card {
+        grid-column: 3;
+    }
+
+    @media (max-width: 760px) {
+        grid-template-columns: var(--dot) 1fr;
+        column-gap: 18px;
+        align-items: start;
+
+        .process-number {
+            grid-column: 1;
+        }
+
+        .process-card,
+        &:nth-child(even) .process-card {
+            grid-column: 2;
+        }
+    }
+}
+
+.process-number {
+    position: relative;
+    z-index: 1;
+    width: var(--dot);
+    height: var(--dot);
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: linear-gradient(135deg, v.$indigo, v.$cyan);
+    color: #fff;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    box-shadow:
+        0 0 0 8px v.$bg-alt,
+        0 10px 24px rgba(67, 56, 202, 0.25);
+}
+
+.process-card {
+    padding: clamp(26px, 3vw, 36px) clamp(24px, 3vw, 36px);
+    transition:
+        transform 0.4s ease,
+        box-shadow 0.4s ease;
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 16px 40px rgba(67, 56, 202, 0.12);
     }
 
     h3 {
-        font-size: 1.05rem;
+        font-size: 1.25rem;
         font-weight: 600;
-        margin-bottom: 10px;
+        margin: 6px 0 12px;
     }
 
     p {
-        font-size: 0.9rem;
+        font-size: 0.97rem;
+        line-height: 1.7;
         color: v.$text-muted;
+    }
+}
+
+.process-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: v.$indigo;
+}
+
+.process-deliverable {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 18px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: v.$indigo;
+    background: rgba(67, 56, 202, 0.07);
+
+    &::before {
+        content: "";
+        width: 14px;
+        height: 14px;
+        flex-shrink: 0;
+        // coche
+        background: currentColor;
+        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / contain no-repeat;
     }
 }

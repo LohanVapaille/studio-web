@@ -56,7 +56,11 @@
                 'url' => route('qui-suis-je'),
                 'image' => asset('img/logo_lova.jpg'),
                 'worksFor' => ['@id' => url('/') . '#lovaweb'],
-                'knowsAbout' => ['Développement web', 'Laravel', 'PHP', 'React', 'JavaScript', 'UI/UX Design', 'SEO', 'E-commerce'],
+                'knowsAbout' => ['Développement web', 'Laravel', 'PHP', 'React', 'JavaScript', 'UI/UX Design', 'SEO', 'E-commerce', 'Qualité web', 'Claude Code'],
+                'hasCredential' => [
+                    ['@type' => 'EducationalOccupationalCredential', 'name' => 'Opquast — Mobiliser un référentiel qualité numérique (Expert)', 'url' => 'https://directory.opquast.com/fr/certificat/WBFSDI/', 'recognizedBy' => ['@type' => 'Organization', 'name' => 'Opquast']],
+                    ['@type' => 'EducationalOccupationalCredential', 'name' => 'Claude Code in action', 'url' => 'https://academy.claude.com/verify/8f52ac5da3657a0d037b859e68b606e2', 'recognizedBy' => ['@type' => 'Organization', 'name' => 'Anthropic']],
+                ],
                 'address' => $postalAddress,
             ],
             [
@@ -143,10 +147,10 @@
             </div>
             <nav @click="menuOpen = false" aria-label="Navigation principale">
                 <a href="{{ route('home') }}#services" class="nav-link">Services</a>
-                <a href="{{ route('home') }}#projets" class="nav-link">Projets</a>
-                <a href="{{ route('home') }}#methode" class="nav-link">Méthode</a>
+                <a href="{{ route('projets') }}"
+                    class="nav-link {{ request()->routeIs('projets*') ? 'is-active' : '' }}">Projets</a>
+                <a href="{{ route('home') }}#applications" class="nav-link">Apps Lova</a>
                 <a href="{{ route('home') }}#tarifs" class="nav-link">Tarifs</a>
-                <a href="{{ route('home') }}#maintenance" class="nav-link">Maintenance</a>
                 <a href="{{ route('qui-suis-je') }}"
                     class="nav-link {{ request()->routeIs('qui-suis-je') ? 'is-active' : '' }}">Qui suis-je</a>
                 <a href="{{ route('blog.index') }}"
@@ -179,9 +183,11 @@
                 <h4>Navigation</h4>
                 <a href="{{ route('home') }}#services">Services</a>
                 <a href="{{ route('projets') }}">Projets</a>
+                <a href="{{ route('home') }}#applications">Applications Lova</a>
                 <a href="{{ route('home') }}#tarifs">Tarifs</a>
                 <a href="{{ route('home') }}#maintenance">Maintenance</a>
                 <a href="{{ route('qui-suis-je') }}">Qui suis-je</a>
+                <a href="{{ route('qui-suis-je') }}#certifications">Certifications</a>
                 <a href="{{ route('blog.index') }}">Blog</a>
             </div>
             <div class="footer-col">

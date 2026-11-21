@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Article;
+use App\Models\LovaApp;
 use App\Models\Project;
 use App\Models\Review;
 use Illuminate\Support\Facades\Route;
@@ -11,8 +12,12 @@ use App\Http\Controllers\ProjectController;
 Route::get('/', function () {
     $featuredProjects = Project::onLovaweb()->where('is_featured', true)->ordered()->take(3)->get();
     $reviews = Review::published()->get();
+    $lovaApps = LovaApp::visible()->get();
+    // Les apps Lova passent devant les projets clients dès qu'au moins une est utilisable :
+    // une rangée de « Bientôt » en haut de page ferait projet inachevé.
+    $appsFirst = $lovaApps->contains(fn (LovaApp $app) => $app->isAvailable());
 
-    return view('welcome', compact('featuredProjects', 'reviews'));
+    return view('welcome', compact('featuredProjects', 'reviews', 'lovaApps', 'appsFirst'));
 })->name('home');
 
 Route::view('/qui-suis-je', 'about')->name('qui-suis-je');

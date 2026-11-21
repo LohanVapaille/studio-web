@@ -1,9 +1,8 @@
 <x-app>
-    <x-slot:title>Lovaweb - Lohan Vapaille — Développeur web freelance Seine-et-Marne (77) & Île-de-France</x-slot>
-        <x-slot:description>Lovaweb — Lohan Vapaille, développeur web freelance en Seine-et-Marne (77) : création de
-            sites
-            vitrines, e-commerce et plateformes sur mesure. Qualité agence, prix freelance. Devis gratuit en
-            Île-de-France, France et international.</x-slot>
+    <x-slot:title>Lovaweb - Lohan Vapaille — Développeur de plateformes web utiles · Freelance Seine-et-Marne (77)</x-slot>
+        <x-slot:description>Lovaweb — Lohan Vapaille, développeur web freelance en Seine-et-Marne (77) : SaaS,
+            dashboards, plateformes de formation et sites qui rapportent des clients. Des outils web qui vous font
+            gagner du temps et de l'argent. Devis gratuit en Île-de-France, France et international.</x-slot>
             <x-slot:head>
                 <script type="application/ld+json">
         {!! json_encode([
@@ -35,23 +34,23 @@
                             <span class="eyebrow-sep" aria-hidden="true">·</span>
                             <span class="eyebrow-loc">Seine-et-Marne (77) &amp; Île-de-France</span>
                         </div>
-                        <h1 data-hero-title>Un site web <span class="hl">qualité agence</span>, au prix d'un freelance.
+                        <h1 data-hero-title>Pas juste un site&nbsp;: une plateforme <span class="hl">qui travaille pour vous</span>.
                         </h1>
-                        <p data-hero-sub>Je suis Lohan Vapaille, développeur web freelance basé en Seine-et-Marne (77).
-                            De l'idée au site
-                            en ligne, je conçois des sites vitrines, e-commerce et plateformes sur mesure — pour toute
-                            l'Île-de-France, la France et l'international — avec une attention particulière portée à
-                            chaque détail.</p>
+                        <p data-hero-sub>Je suis Lohan Vapaille, développeur web freelance en Seine-et-Marne (77). SaaS,
+                            dashboards, plateformes de formation ou sites qui amènent des clients&nbsp;: je conçois des
+                            outils qui vous font gagner du temps, de l'argent ou de l'organisation.</p>
                         <div class="hero-ctas" data-hero-ctas>
                             <a href="#" class="btn-rdv" @click.prevent="contactOpen = true">Prendre rendez-vous</a>
-                            <a href="#projets" class="btn-secondary">Voir mes projets</a>
+                            @if ($appsFirst)
+                                <a href="#applications" class="btn-secondary">Découvrir les apps Lova</a>
+                            @else
+                                <a href="#projets" class="btn-secondary">Voir mes projets</a>
+                            @endif
                         </div>
                         <ul class="hero-points" data-hero-points>
-                            <li>Devis gratuit et sans engagement</li>
                             <li>Qualité agence, prix freelance</li>
-                            <li>Accompagnement de A à Z</li>
                             <li>Back-office en autonomie</li>
-                            <li>Maintenance dès 49 € HT/mois</li>
+                            <li>Devis gratuit et sans engagement</li>
                         </ul>
                     </div>
                 </section>
@@ -59,40 +58,59 @@
                 <section id="services">
                     <div class="container">
                         <div class="section-head">
-                            <div class="eyebrow"><span class="eyebrow-dot"></span> Services</div>
-                            <h2>Création de sites internet sur mesure</h2>
-                            <p>Du site vitrine à la plateforme sur mesure, chaque projet est pensé selon vos besoins
-                                réels, avec le soin d'une agence web.</p>
+                            <div class="eyebrow"><span class="eyebrow-dot"></span> Ce que je construis</div>
+                            <h2>Des plateformes utiles, pas des vitrines vides</h2>
+                            <p>On part de ce que l'outil doit vous apporter, puis on construit autour. Le design et la
+                                technique sont au service d'un seul objectif&nbsp;: un résultat concret pour vous.</p>
                         </div>
-                        <div class="services-grid">
+                        <div class="services-carousel" data-carousel aria-roledescription="carrousel"
+                            aria-label="Ce que je construis">
+                            <div class="carousel-track" data-carousel-track tabindex="0">
                             @foreach ([
-                                    ['title' => 'Sites vitrines', 'text' => "Une présence en ligne qui vous ressemble : responsive, rapide et optimisée pour le référencement.", 'icon' => '<rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>'],
-                                    ['title' => 'E-commerce', 'text' => "Boutiques en ligne complètes : catalogue, paiement sécurisé et gestion des commandes.", 'icon' => '<path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/>'],
-                                    ['title' => 'Plateformes e-learning', 'text' => "Gestion des cours, suivi de progression et back-office complet pour piloter vos formations.", 'icon' => '<path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/>'],
-                                    ['title' => 'Plateformes communautaires', 'text' => "Profils, interactions et contenus partagés pensés pour l'engagement de vos utilisateurs.", 'icon' => '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>'],
-                                    ['title' => 'Refonte de site', 'text' => "Modernisation du design, de la performance et de l'ergonomie de votre site existant.", 'icon' => '<path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.5 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.65 4.36A9 9 0 0 0 20.5 15"/>'],
-                                    ['title' => 'Messagerie instantanée', 'text' => "Intégration de chat en temps réel pour fluidifier la communication avec vos utilisateurs.", 'icon' => '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>'],
+                                    ['gain' => 'Gagner du temps', 'title' => 'SaaS & automatisation', 'text' => "Un logiciel en ligne sur mesure qui fait à votre place les tâches répétitives : devis, relances, réservations, traitements par IA.", 'icon' => '<path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>'],
+                                    ['gain' => 'Piloter', 'title' => 'Dashboards & outils internes', 'text' => "Vos chiffres, clients, stocks ou plannings réunis au même endroit, à jour, lisibles en un coup d'œil.", 'icon' => '<path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/>'],
+                                    ['gain' => 'Rapporter des clients', 'title' => 'Sites qui convertissent', 'text' => "Un site qui présente précisément vos services, rassure et transforme les visiteurs en demandes de devis. Référencé localement.", 'icon' => '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>'],
+                                    ['gain' => 'Transmettre', 'title' => 'Plateformes de formation', 'text' => "Cours, suivi de progression, espace membre et paiement : votre savoir devient un produit qui se vend en continu.", 'icon' => '<path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/>'],
+                                    ['gain' => 'Vendre', 'title' => 'E-commerce & réservation', 'text' => "Boutique, prise de rendez-vous ou abonnements avec paiement sécurisé et gestion des commandes sans effort.", 'icon' => '<path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/>'],
+                                    ['gain' => 'Fédérer', 'title' => 'Plateformes communautaires', 'text' => "Espaces membres, messagerie, contenus partagés : de quoi faire vivre une communauté autour de votre activité.", 'icon' => '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>'],
                                 ] as $service)
-                                <div class="glass-card service-card">
+                                <div class="glass-card service-card" data-carousel-slide aria-roledescription="diapositive"
+                                    aria-label="{{ $loop->iteration }} sur {{ $loop->count }}">
                                     <div class="service-icon">
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
                                             stroke-linecap="round" stroke-linejoin="round"
                                             aria-hidden="true">{!! $service['icon'] !!}</svg>
                                     </div>
+                                    <span class="service-gain">{{ $service['gain'] }}</span>
                                     <h3>{{ $service['title'] }}</h3>
                                     <p>{{ $service['text'] }}</p>
                                 </div>
                             @endforeach
+                            </div>
+                            <div class="carousel-controls">
+                                <button type="button" class="carousel-arrow" data-carousel-prev aria-label="Précédent">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+                                </button>
+                                <div class="carousel-dots" data-carousel-dots></div>
+                                <button type="button" class="carousel-arrow" data-carousel-next aria-label="Suivant">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </section>
 
+                @if ($lovaApps->isNotEmpty() && $appsFirst)
+                    @include('partials.lova-apps')
+                @endif
+
                 <section id="projets">
                     <div class="container">
                         <div class="section-head">
-                            <div class="eyebrow"><span class="eyebrow-dot"></span> Projets</div>
-                            <h2>Quelques réalisations récentes</h2>
-                            <p>Un aperçu de projets menés de bout en bout, de la conception au déploiement.</p>
+                            <div class="eyebrow"><span class="eyebrow-dot"></span> Projets clients</div>
+                            <h2>Ils m'ont fait confiance</h2>
+                            <p>Des projets menés de bout en bout pour des indépendants, TPE et associations, de la
+                                conception au déploiement.</p>
                         </div>
                         <div class="projects-grid">
                             @foreach ($featuredProjects as $project)
@@ -105,28 +123,35 @@
                     </div>
                 </section>
 
+                @if ($lovaApps->isNotEmpty() && ! $appsFirst)
+                    @include('partials.lova-apps')
+                @endif
+
                 <section id="methode" class="section-alt">
                     <div class="container">
                         <div class="section-head">
                             <div class="eyebrow"><span class="eyebrow-dot"></span> Méthode</div>
                             <h2>Comment se déroule un projet</h2>
-                            <p>Un cadre clair à chaque étape, pour que vous sachiez toujours où en est votre site.</p>
+                            <p>Un cadre clair à chaque étape, pour que vous sachiez toujours où en est votre projet.</p>
                         </div>
-                        <div class="process-grid">
+                        <ol class="process-timeline">
                             @foreach ([
-                                    ['title' => 'Échange & cahier des charges', 'text' => "On discute de vos objectifs et de vos contraintes. Je formalise le besoin dans un cahier des charges et un devis clair, gratuit et sans engagement."],
-                                    ['title' => 'Maquette & design', 'text' => "Je conçois l'interface de votre site et vous la validez avant le moindre développement."],
-                                    ['title' => 'Développement', 'text' => "Intégration, back-office et tests sur tous les écrans. Vous suivez l'avancement à chaque étape."],
-                                    ['title' => 'Mise en ligne & suivi', 'text' => "Déploiement, prise en main du back-office, puis maintenance si vous le souhaitez."],
+                                    ['title' => 'Échange & cahier des charges', 'text' => "On discute de vos objectifs et de vos contraintes. Je formalise le besoin dans un cahier des charges et un devis clair, gratuit et sans engagement.", 'deliverable' => 'Cahier des charges + devis'],
+                                    ['title' => 'Maquette & design', 'text' => "Je conçois l'interface de votre plateforme et vous la validez avant le moindre développement.", 'deliverable' => 'Maquette validée ensemble'],
+                                    ['title' => 'Développement', 'text' => "Intégration, back-office et tests sur tous les écrans. Vous suivez l'avancement à chaque étape.", 'deliverable' => 'Version de test en ligne'],
+                                    ['title' => 'Mise en ligne & suivi', 'text' => "Déploiement, prise en main du back-office, puis maintenance si vous le souhaitez.", 'deliverable' => 'Plateforme en ligne + formation'],
                                 ] as $step)
-                                <div class="glass-card process-step">
-                                    <span
-                                        class="process-number">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
-                                    <h3>{{ $step['title'] }}</h3>
-                                    <p>{{ $step['text'] }}</p>
-                                </div>
+                                <li class="process-step">
+                                    <span class="process-number" aria-hidden="true">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+                                    <div class="glass-card process-card">
+                                        <span class="process-label">Étape {{ $loop->iteration }}</span>
+                                        <h3>{{ $step['title'] }}</h3>
+                                        <p>{{ $step['text'] }}</p>
+                                        <span class="process-deliverable">{{ $step['deliverable'] }}</span>
+                                    </div>
+                                </li>
                             @endforeach
-                        </div>
+                        </ol>
                     </div>
                 </section>
 
@@ -161,17 +186,11 @@
                                     gratuit</a>
                             </div>
                         </div>
-                    </div>
-                </section>
 
-                <section id="maintenance">
-                    <div class="container">
-                        <div class="section-head">
-                            <div class="eyebrow"><span class="eyebrow-dot"></span> Après la mise en ligne</div>
-                            <h2>Une fois le site réalisé, que se <span class="nowrap">passe-t-il&nbsp;?</span></h2>
+                        <div id="maintenance" class="subsection-head">
+                            <h3>Et après la mise en <span class="nowrap">ligne&nbsp;?</span></h3>
                             <p>Votre site continue de vivre : mises à jour, sécurité, petites évolutions. Je vous
-                                propose un
-                                accompagnement mensuel adapté à vos besoins.</p>
+                                propose un accompagnement mensuel adapté à vos besoins.</p>
                         </div>
                         <div class="plans-grid">
                             @foreach ([

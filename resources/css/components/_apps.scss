@@ -1,0 +1,239 @@
+@use "../variables" as v;
+
+// ---------- Applications Lova (façon « catalogue d'apps ») ----------
+
+.apps-section {
+    background:
+        radial-gradient(60% 50% at 15% 20%, rgba(99, 102, 241, 0.1), transparent 70%),
+        radial-gradient(50% 50% at 85% 80%, rgba(56, 189, 248, 0.12), transparent 70%);
+}
+
+.apps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.app-card {
+    --app-color: #{v.$indigo};
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    overflow: hidden;
+    isolation: isolate;
+    transition:
+        transform 0.4s ease,
+        box-shadow 0.4s ease;
+
+    // Halo de la couleur de l'app
+    &::before {
+        content: "";
+        position: absolute;
+        inset: -40% -40% auto auto;
+        width: 220px;
+        height: 220px;
+        border-radius: 50%;
+        background: var(--app-color);
+        opacity: 0.12;
+        filter: blur(40px);
+        z-index: -1;
+        transition: opacity 0.4s ease;
+    }
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 18px 40px color-mix(in srgb, var(--app-color) 22%, transparent);
+
+        &::before {
+            opacity: 0.22;
+        }
+    }
+
+    &.is-featured {
+        @media (min-width: 720px) {
+            grid-column: span 2;
+        }
+    }
+
+    h3 {
+        font-size: 1.15rem;
+        font-weight: 700;
+        margin: 16px 0 2px;
+    }
+}
+
+.app-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.app-icon {
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+    border-radius: 15px;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(145deg, var(--app-color), color-mix(in srgb, var(--app-color) 60%, #000));
+    color: #fff;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    box-shadow:
+        0 8px 18px color-mix(in srgb, var(--app-color) 35%, transparent),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+.app-badges {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 6px;
+}
+
+.app-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 4px 9px;
+    border-radius: 999px;
+    background: rgba(27, 27, 47, 0.06);
+    color: v.$text-muted;
+
+    &--live {
+        background: rgba(16, 185, 129, 0.12);
+        color: #047857;
+    }
+
+    &--beta {
+        background: rgba(245, 158, 11, 0.14);
+        color: #b45309;
+    }
+
+    &--ai {
+        background: linear-gradient(135deg, v.$indigo-light, v.$cyan);
+        color: #fff;
+    }
+}
+
+.app-category {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--app-color);
+}
+
+.app-tagline {
+    margin-top: 10px;
+    font-size: 0.92rem;
+    color: v.$text-muted;
+}
+
+.app-features {
+    list-style: none;
+    padding: 0;
+    margin: 14px 0 0;
+    display: grid;
+    gap: 6px;
+
+    li {
+        position: relative;
+        padding-left: 20px;
+        font-size: 0.86rem;
+
+        &::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.45em;
+            width: 10px;
+            height: 10px;
+            border-radius: 3px;
+            background: var(--app-color);
+            opacity: 0.8;
+        }
+    }
+}
+
+.app-footer {
+    margin-top: auto;
+    padding-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.app-price {
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.app-cta {
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: var(--app-color);
+    color: #fff;
+    text-decoration: none;
+    transition: filter 0.2s ease;
+
+    &:hover {
+        filter: brightness(1.1);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--app-color);
+        outline-offset: 3px;
+    }
+
+    &.is-disabled {
+        background: rgba(27, 27, 47, 0.06);
+        color: v.$text-muted;
+    }
+}
+
+.apps-pitch {
+    margin-top: 36px;
+    padding: 24px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px 32px;
+    flex-wrap: wrap;
+
+    p {
+        flex: 1 1 320px;
+        color: v.$text-muted;
+    }
+
+    strong {
+        display: block;
+        color: v.$text;
+        font-size: 1.05rem;
+        margin-bottom: 4px;
+    }
+}
+
+// Résultat apporté, au-dessus du titre des cartes services
+.service-gain {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: v.$indigo;
+    margin-bottom: 6px;
+}

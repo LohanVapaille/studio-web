@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Projects\Schemas;
 
+use App\Filament\Support\RichText;
 use App\Models\Project;
 use App\Models\Technology;
 use Filament\Forms\Components\FileUpload;
@@ -76,10 +77,9 @@ class ProjectForm
                                 ->maxLength(500)
                                 ->helperText('Affichée sur les cartes projet et en introduction de la page.'),
 
-                            Textarea::make('presentation')
+                            RichText::make('presentation')
                                 ->label('Présentation détaillée')
-                                ->rows(14)
-                                ->helperText('Utilisez <br><br> pour changer de paragraphe. Balises autorisées : <strong>, <em>, <a>, <ul>/<li>.'),
+                                ->helperText('Mise en page affichée à l’identique sur Lovaweb et sur le portfolio. H2 = grandes parties, H3 = sous-parties, « Lead » = introduction, « Citation » = encadré.'),
                         ]),
 
                     Section::make('Visuels')

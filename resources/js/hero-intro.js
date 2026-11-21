@@ -276,6 +276,7 @@ function splitTitle(el) {
     const original = el.innerHTML;
     const label = el.textContent.replace(/\s+/g, " ").trim();
     const chars = [];
+    let words = 0;
 
     const walk = (node) => {
         [...node.childNodes].forEach((child) => {
@@ -293,12 +294,14 @@ function splitTitle(el) {
                     return;
                 }
                 const word = document.createElement("span");
+                const wordIndex = words++;
                 word.className = "split-word";
                 word.setAttribute("aria-hidden", "true");
                 [...part].forEach((ch) => {
                     const c = document.createElement("span");
                     c.className = "split-char";
                     c.textContent = ch;
+                    c.dataset.word = wordIndex;
                     word.appendChild(c);
                     chars.push(c);
                 });
@@ -313,6 +316,7 @@ function splitTitle(el) {
 
     return {
         chars,
+        words,
         restore() {
             el.innerHTML = original;
             el.removeAttribute("aria-label");
@@ -340,8 +344,8 @@ function runIntro(ui, shapes, mobile, onDone) {
     // --- état initial --------------------------------------------------------
     const split = splitTitle(ui.title);
     const hl = ui.title.querySelector(".hl");
-    gsap.set(split.chars, { yPercent: 110 });
-    if (hl) gsap.set(hl, { backgroundSize: "0% 0.38em" });
+    gsap.set(split.chars, { yPercent: 100, opacity: 0 });
+    if (hl) gsap.set(hl, { backgroundSize: "0% 0.26em" });
     gsap.set(ui.eyebrow, { opacity: 0, y: 10 });
     gsap.set(ui.sub, { opacity: 0, filter: "blur(8px)" });
     gsap.set([ui.ctas, ui.points], { opacity: 0, scale: 0.9 });
@@ -529,12 +533,23 @@ function runIntro(ui, shapes, mobile, onDone) {
     if (ui.skip) tl.to(ui.skip, { opacity: 0, duration: 0.2 }, T.layerOut);
 
     // --- 5. Le titre ---------------------------------------------------------
-    const each = Math.min(0.04, T.titleSpan / Math.max(split.chars.length, 1));
-    const afterTitle = T.title + each * split.chars.length + 0.1;
+    // Le titre monte mot par mot (et non lettre par lettre) : plus calme sur une phrase longue
+    const perWord = Math.min(0.09, T.titleSpan / Math.max(split.words, 1));
+    const afterTitle = T.title + perWord * split.words + 0.25;
 
     tl.to(ui.eyebrow, { opacity: 1, y: 0, duration: 0.5 }, T.title - 0.1);
-    tl.to(split.chars, { yPercent: 0, duration: 0.7, ease: "power4.out", stagger: each }, T.title);
-    if (hl) tl.to(hl, { backgroundSize: "100% 0.38em", duration: 0.6, ease: "power2.inOut" }, afterTitle - 0.2);
+    tl.to(
+        split.chars,
+        {
+            yPercent: 0,
+            opacity: 1,
+            duration: 0.9,
+            ease: "power3.out",
+            stagger: (i, el) => Number(el.dataset.word) * perWord,
+        },
+        T.title,
+    );
+    if (hl) tl.to(hl, { backgroundSize: "100% 0.26em", duration: 0.8, ease: "power2.inOut" }, afterTitle - 0.3);
     tl.to(ui.sub, { opacity: 1, filter: "blur(0px)", duration: 0.6 }, afterTitle - 0.3);
     tl.to([ui.ctas, ui.points], { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(1.6)", stagger: 0.08 }, afterTitle);
 }
@@ -673,8 +688,8 @@ function drawHighlight(ui) {
     if (!hl) return;
     gsap.fromTo(
         hl,
-        { backgroundSize: "0% 0.38em" },
-        { backgroundSize: "100% 0.38em", duration: 0.9, delay: 0.3, ease: "power2.inOut" },
+        { backgroundSize: "0% 0.26em" },
+        { backgroundSize: "100% 0.26em", duration: 0.9, delay: 0.3, ease: "power2.inOut" },
     );
 }
 

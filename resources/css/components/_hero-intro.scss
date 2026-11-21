@@ -32,20 +32,22 @@
 
     h1 {
         font-family: "Space Grotesk", sans-serif;
-        font-weight: 700;
-        font-size: clamp(3rem, 8vw, 7rem);
-        line-height: 1.02;
-        letter-spacing: -0.035em;
+        font-weight: 600;
+        font-size: clamp(2.6rem, 5vw, 4.4rem);
+        line-height: 1.1;
+        letter-spacing: -0.025em;
         color: v.$lw-indigo-dark;
-        margin-bottom: 28px;
+        max-width: 20ch;
+        margin: 0 auto 26px;
+        text-wrap: balance;
     }
 
     // mot-clé surligné : le dégradé se « dessine » de gauche à droite (JS)
     .hl {
-        background-image: linear-gradient(90deg, rgba(v.$lw-indigo, 0.35), rgba(v.$lw-cyan, 0.55));
+        background-image: linear-gradient(90deg, rgba(v.$lw-indigo, 0.22), rgba(v.$lw-cyan, 0.4));
         background-repeat: no-repeat;
-        background-position: 0 88%;
-        background-size: 100% 0.38em;
+        background-position: 0 90%;
+        background-size: 100% 0.26em;
         -webkit-box-decoration-break: clone;
         box-decoration-break: clone;
         padding: 0 0.04em;
@@ -90,7 +92,7 @@
         min-height: auto;
 
         h1 {
-            font-size: clamp(2.6rem, 11vw, 3.4rem);
+            font-size: clamp(2.1rem, 8.5vw, 2.8rem);
         }
     }
 }

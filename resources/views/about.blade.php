@@ -34,13 +34,25 @@
                             <p class="signature">Lohan Vapaille — Développeur web freelance</p>
                         </div>
                         <div class="about-photo">
-
-
-                            <img src="{{ asset('img/allsites.png') }}"
-                                alt="Aperçu des sites réalisés par Lohan Vapaille, développeur web freelance"
-                                class="lohan-photo">
-
-
+                            @php
+                                $fanShots = [
+                                    ['file' => 'music1.jpg', 'name' => 'Green Montana'],
+                                    ['file' => 'mel1.jpg', 'name' => 'Blog de Mélanie Jamain'],
+                                    ['file' => 'tim1.jpg', 'name' => "Techniques d'intégration multimédia"],
+                                    ['file' => 'huntersteam1.jpg', 'name' => 'Hunters Team'],
+                                    ['file' => 'tedy1.jpg', 'name' => 'TedyCRPE'],
+                                ];
+                            @endphp
+                            <div class="sites-fan" role="img"
+                                aria-label="Aperçu de sites réalisés par Lohan Vapaille : {{ collect($fanShots)->pluck('name')->join(', ') }}">
+                                @foreach ($fanShots as $shot)
+                                    <div class="fan-card" style="--i: {{ $loop->index }}; --n: {{ $loop->count }}" aria-hidden="true">
+                                        <span class="fan-bar"><i></i><i></i><i></i></span>
+                                        <img src="{{ asset('img/fan/' . $shot['file']) }}" alt="" width="960" height="480"
+                                            loading="{{ $loop->last ? 'eager' : 'lazy' }}" decoding="async">
+                                    </div>
+                                @endforeach
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -81,6 +93,66 @@
                                 <li>UI / UX Design</li>
                             </ul>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="ia" class="section-alt">
+                <div class="container">
+                    <div class="section-head">
+                        <div class="eyebrow"><span class="eyebrow-dot"></span> Transparence</div>
+                        <h2>Comment j'utilise l'intelligence artificielle</h2>
+                        <p>J'utilise l'IA dans mes créations, et je préfère vous le dire clairement. C'est un outil
+                            que j'ai appris à maîtriser, pas un pilote automatique.</p>
+                    </div>
+                    <div class="ai-grid">
+                        <div class="glass-card ai-card">
+                            <span class="ai-tag">Avec l'IA</span>
+                            <h3>Pour aller plus vite et apprendre</h3>
+                            <ul>
+                                <li>Accélérer le développement, pour passer plus de temps sur ce qui compte pour vous</li>
+                                <li>Apprendre et approfondir de nouvelles technologies plus rapidement</li>
+                            </ul>
+                        </div>
+                        <div class="glass-card ai-card ai-card--manual">
+                            <span class="ai-tag">Sans IA</span>
+                            <h3>Pour tout ce qui touche à votre site en production</h3>
+                            <ul>
+                                <li>La maintenance</li>
+                                <li>Les sauvegardes</li>
+                                <li>La mise en ligne</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="certifications">
+                <div class="container">
+                    <div class="section-head">
+                        <div class="eyebrow"><span class="eyebrow-dot"></span> Certifications</div>
+                        <h2>Des compétences vérifiables</h2>
+                        <p>Chaque certification peut être vérifiée en ligne auprès de l'organisme qui l'a délivrée.</p>
+                    </div>
+                    <div class="certs-grid">
+                        <a class="glass-card cert-card" href="https://directory.opquast.com/fr/certificat/WBFSDI/"
+                            target="_blank" rel="noopener">
+                            <span class="cert-issuer">Opquast</span>
+                            <h3>Mobiliser un référentiel qualité numérique</h3>
+                            <p>Niveau <strong>Expert</strong> (900 points) : qualité web, accessibilité et bonnes
+                                pratiques.</p>
+                            <span class="cert-meta">Délivrée en avril 2026 · Valide jusqu'en 2029</span>
+                            <span class="cert-link">Vérifier le certificat <span aria-hidden="true">↗</span><span class="sr-only"> (nouvel onglet)</span></span>
+                        </a>
+                        <a class="glass-card cert-card"
+                            href="https://academy.claude.com/verify/8f52ac5da3657a0d037b859e68b606e2" target="_blank"
+                            rel="noopener">
+                            <span class="cert-issuer">Claude Academy · Anthropic</span>
+                            <h3>Claude Code in action</h3>
+                            <p>Formation à l'utilisation de l'IA dans le développement logiciel avec Claude Code.</p>
+                            <span class="cert-meta">Badge obtenu en novembre 2026</span>
+                            <span class="cert-link">Vérifier le badge <span aria-hidden="true">↗</span><span class="sr-only"> (nouvel onglet)</span></span>
+                        </a>
                     </div>
                 </div>
             </section>

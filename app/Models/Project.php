@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Filament\Forms\Components\RichEditor\RichContentRenderer;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -163,11 +164,14 @@ class Project extends Model
         return static::assetUrl($this->mockup_image);
     }
 
-    /** Présentation : HTML saisi dans le back-office, on garde seulement les balises sûres. */
+    /**
+     * Présentation : HTML de l'éditeur de mise en page du back-office (titres, listes, citations…),
+     * nettoyé par le moteur de rendu Filament (scripts et attributs dangereux retirés).
+     */
     public function getPresentationHtmlAttribute(): string
     {
         $html = trim((string) $this->presentation);
 
-        return strip_tags($html, '<br><p><strong><b><em><i><u><a><ul><ol><li><h3><h4>');
+        return $html === '' ? '' : RichContentRenderer::make($html)->toHtml();
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Http\Middleware\SetAdminLocale;
+use Filament\Actions\Action;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -11,6 +12,7 @@ use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\Support\Icons\Heroicon;
 use Filament\View\PanelsRenderHook;
 use Filament\Widgets\AccountWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -30,7 +32,15 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->profile()
-            ->navigationGroups(['Contact', 'Portfolio', 'Contenu', 'Comptabilité'])
+            // Menu de l'avatar : retour au site public
+            ->userMenuItems([
+                Action::make('back-to-site')
+                    ->label('Retour au site')
+                    ->icon(Heroicon::OutlinedArrowUturnLeft)
+                    ->url(fn (): string => route('home'))
+                    ->sort(-1),
+            ])
+            ->navigationGroups(['Contact', 'Portfolio', 'Lova', 'Contenu', 'Comptabilité'])
             // Icônes Boxicons des caractéristiques de projet (aperçu dans le back-office)
             ->renderHook(PanelsRenderHook::HEAD_END, fn () => '<link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">')
             // Thème clair glassmorphism (public/css/admin-glass.css)
