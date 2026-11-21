@@ -164,34 +164,20 @@
                         <h2>Comment j'en suis arrivé là</h2>
                         <p>Quelques étapes clés de mon parcours.</p>
                     </div>
-                    <div class="timeline">
-                        <div class="timeline-item">
-                            <div class="timeline-date">2023</div>
-                            <h3>Entrée en BUT MMI</h3>
-                            <p>Début de la formation Métiers du Multimédia et de l'Internet : développement, design et
-                                gestion de projet web.</p>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-date">2024</div>
-                            <h3>Premiers projets web</h3>
-                            <p>Développement de mes premières applications complètes (Bulle de Bonheur, portfolio
-                                personnel), en
-                                autonomie sur tout le cycle de développement.</p>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-date">2025</div>
-                            <h3>Premiers clients</h3>
-                            <p>Réalisation de projets pour de premiers clients, avec un vrai processus : cahier des
-                                charges,
-                                devis, suivi de projet (TedyCRPE, Blog de Mélanie Jamain...)</p>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-date">2026</div>
-                            <h3>Entrée en 3ᵉ année de BUT MMI</h3>
-                            <p>Poursuite de la formation, en parallèle du développement de mon activité freelance et de
-                                projets plus ambitieux comme Tedycrpe.</p>
-                        </div>
-                    </div>
+                    <ol class="timeline">
+                        @foreach ($timeline as $entry)
+                            <li class="timeline-item">
+                                <time class="timeline-date" datetime="{{ $entry->sorted_at->format('Y-m') }}">{{ $entry->period_label }}</time>
+                                <h3>{{ $entry->title }}</h3>
+                                @if ($entry->institution)
+                                    <div class="timeline-place">{{ $entry->institution }}</div>
+                                @endif
+                                @if ($entry->description)
+                                    <p>{{ $entry->description }}</p>
+                                @endif
+                            </li>
+                        @endforeach
+                    </ol>
                 </div>
             </section>
 </x-app>

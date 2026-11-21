@@ -4,6 +4,7 @@ use App\Models\Article;
 use App\Models\LovaApp;
 use App\Models\Project;
 use App\Models\Review;
+use App\Models\TimelineEntry;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ContactController;
@@ -20,7 +21,12 @@ Route::get('/', function () {
     return view('welcome', compact('featuredProjects', 'reviews', 'lovaApps', 'appsFirst'));
 })->name('home');
 
-Route::view('/qui-suis-je', 'about')->name('qui-suis-je');
+Route::get('/qui-suis-je', function () {
+    // Ordre chronologique : le parcours se lit du plus ancien au plus récent
+    $timeline = TimelineEntry::published()->reorder('sorted_at')->get();
+
+    return view('about', compact('timeline'));
+})->name('qui-suis-je');
 
 Route::view('/mentions-legales', 'legal')->name('mentions-legales');
 
